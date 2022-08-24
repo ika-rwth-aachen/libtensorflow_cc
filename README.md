@@ -1,5 +1,72 @@
 # libtensorflow_cc
 
+- [Docker Images](#docker-images)
+- [Build](#build)
+- [Supported TensorFlow Versions](#supported-tensorflow-versions)
+- [Version Matrix](#version-matrix)
+
+
+## Docker Images
+
+| TensorFlow Version | CPU/GPU | Image:Tag |
+| :---: | :---: | --- |
+| latest | CPU | `ika-rwth-aachen/tensorflow:latest-py-cpp` |
+| latest | GPU | `ika-rwth-aachen/tensorflow:latest-py-cpp-gpu` |
+
+<details>
+<summary><i>All TensorFlow Versions (CPU)</i></summary>
+
+| TensorFlow Version | Image:Tag |
+| :---: | --- |
+| latest | `ika-rwth-aachen/tensorflow:latest-py-cpp` |
+| 2.9.1 | `ika-rwth-aachen/tensorflow:2.9.1-py-cpp` |
+| 2.9.0 | `ika-rwth-aachen/tensorflow:2.9.0-py-cpp` |
+| 2.8.2 | `ika-rwth-aachen/tensorflow:2.8.2-py-cpp` |
+| 2.8.1 | `ika-rwth-aachen/tensorflow:2.8.1-py-cpp` |
+| 2.8.0 | `ika-rwth-aachen/tensorflow:2.8.0-py-cpp` |
+| 2.7.3 | `ika-rwth-aachen/tensorflow:2.7.3-py-cpp` |
+| 2.7.2 | `ika-rwth-aachen/tensorflow:2.7.2-py-cpp` |
+| 2.7.1 | `ika-rwth-aachen/tensorflow:2.7.1-py-cpp` |
+| 2.7.0 | `ika-rwth-aachen/tensorflow:2.7.0-py-cpp` |
+| 2.6.1 | `ika-rwth-aachen/tensorflow:2.6.1-py-cpp` |
+| 2.6.0 | `ika-rwth-aachen/tensorflow:2.6.0-py-cpp` |
+| 2.5.1 | `ika-rwth-aachen/tensorflow:2.5.1-py-cpp` |
+| 2.5.0 | `ika-rwth-aachen/tensorflow:2.5.0-py-cpp` |
+| 2.4.3 | `ika-rwth-aachen/tensorflow:2.4.3-py-cpp` |
+| 2.4.2 | `ika-rwth-aachen/tensorflow:2.4.2-py-cpp` |
+| 2.4.1 | `ika-rwth-aachen/tensorflow:2.4.1-py-cpp` |
+| 2.4.0 | `ika-rwth-aachen/tensorflow:2.4.0-py-cpp` |
+| 2.3.4 | `ika-rwth-aachen/tensorflow:2.3.4-py-cpp` |
+| 2.3.3 | `ika-rwth-aachen/tensorflow:2.3.3-py-cpp` |
+| 2.3.2 | `ika-rwth-aachen/tensorflow:2.3.2-py-cpp` |
+| 2.3.1 | `ika-rwth-aachen/tensorflow:2.3.1-py-cpp` |
+| 2.3.0 | `ika-rwth-aachen/tensorflow:2.3.0-py-cpp` |
+| 2.0.4 | `ika-rwth-aachen/tensorflow:2.0.4-py-cpp` |
+| 2.0.3 | `ika-rwth-aachen/tensorflow:2.0.3-py-cpp` |
+| 2.0.1 | `ika-rwth-aachen/tensorflow:2.0.1-py-cpp` |
+| 2.0.0 | `ika-rwth-aachen/tensorflow:2.0.0-py-cpp` |
+
+</details>
+
+<details>
+<summary><i>All TensorFlow Versions (GPU)</i></summary>
+
+| TensorFlow Version | Image:Tag |
+| :---: | --- |
+| latest | `ika-rwth-aachen/tensorflow:latest-py-cpp-gpu` |
+| 2.9.1 | `ika-rwth-aachen/tensorflow:2.9.1-py-cpp-gpu` |
+| 2.9.0 | `ika-rwth-aachen/tensorflow:2.9.0-py-cpp-gpu` |
+| 2.8.2 | `ika-rwth-aachen/tensorflow:2.8.2-py-cpp-gpu` |
+| 2.8.1 | `ika-rwth-aachen/tensorflow:2.8.1-py-cpp-gpu` |
+| 2.8.0 | `ika-rwth-aachen/tensorflow:2.8.0-py-cpp-gpu` |
+| 2.7.3 | `ika-rwth-aachen/tensorflow:2.7.3-py-cpp-gpu` |
+| 2.7.2 | `ika-rwth-aachen/tensorflow:2.7.2-py-cpp-gpu` |
+| 2.7.1 | `ika-rwth-aachen/tensorflow:2.7.1-py-cpp-gpu` |
+| 2.7.0 | `ika-rwth-aachen/tensorflow:2.7.0-py-cpp-gpu` |
+
+</details>
+
+
 ## Build
 
 All `make` targets support the flags `TF_VERSION` (defaults to `2.9.1`) and `GPU` (defaults to `1`) in order to build a specific TensorFlow version in CPU/GPU mode.
