@@ -1,10 +1,35 @@
 # libtensorflow_cc
 
+- [Demo](#demo)
 - [Docker Images](#docker-images)
 - [Build](#build)
 - [Supported TensorFlow Versions](#supported-tensorflow-versions)
 - [Version Matrix](#version-matrix)
 
+
+## Demo
+
+```bash
+docker run --rm \
+    --volume $(pwd)/example:/example \
+    --workdir /example \
+    ika-rwth-aachen/tensorflow:latest-py-cpp \
+        bash /example/build-and-run.sh
+
+# Hello from TensorFlow C++ 2.9.1!
+#
+# A = 
+# 1 2
+# 3 4
+#
+# x = 
+# 1
+# 2
+#
+# A * x = 
+#  5
+# 11
+```
 
 ## Docker Images
 

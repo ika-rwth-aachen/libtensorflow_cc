@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
   session.Run({A, x, b}, &outputs);
 
   // print results
-  cout << "Hello from TensorFlow " << TF_VERSION_STRING << "!" << endl << endl;
+  cout << "Hello from TensorFlow C++ " << TF_VERSION_STRING << "!" << endl << endl;
   cout << "A = " << endl << outputs[0].tensor<int, 2>() << endl << endl;
   cout << "x = " << endl << outputs[1].tensor<int, 2>() << endl << endl;
   cout << "A * x = " << endl << outputs[2].tensor<int, 2>() << endl;
