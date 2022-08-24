@@ -14,7 +14,7 @@ docker run --rm \
     --volume $(pwd)/example:/example \
     --workdir /example \
     ika-rwth-aachen/tensorflow:latest-py-cpp \
-        bash /example/build-and-run.sh
+        ./build-and-run.sh
 
 # Hello from TensorFlow C++ 2.9.1!
 #
