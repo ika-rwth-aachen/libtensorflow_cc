@@ -10,8 +10,8 @@
 
 | TensorFlow Version | CPU/GPU | Image:Tag |
 | :---: | :---: | --- |
-| latest | CPU | `ika-rwth-aachen/tensorflow:latest-py-cpp` |
-| latest | GPU | `ika-rwth-aachen/tensorflow:latest-py-cpp-gpu` |
+| 2.9.1 | CPU | `ika-rwth-aachen/tensorflow:latest-py-cpp` |
+| 2.9.1 | GPU | `ika-rwth-aachen/tensorflow:latest-py-cpp-gpu` |
 
 <details>
 <summary><i>All TensorFlow Versions (CPU)</i></summary>
@@ -127,8 +127,11 @@ make 5-print-versions
 
 ## Supported TensorFlow Versions
 
-| Version | build `-devel` | build `-py-cpp` | test | build `-devel-gpu` | build `-py-cpp-gpu` | test `-gpu` | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+<details>
+<summary><i>Show Table</i></summary>
+
+| Version | 1. (CPU) | 2. (CPU) | 4. (CPU) | 1. (GPU) | 2. (GPU) | 4. (GPU) | Notes |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | --- |
 | 2.9.1 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
 | 2.9.0 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
 | 2.8.2 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
@@ -173,8 +176,13 @@ make 5-print-versions
 | 2.0.1 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
 | 2.0.0 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
 
+</details>
+
 
 ## Version Matrix
+
+<details>
+<summary><i>Show Table</i></summary>
 
 | TensorFlow | Architecture | Ubuntu | GCC | Bazel | Python | protobuf | CUDA | cuDNN | TensorRT |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -221,3 +229,5 @@ make 5-print-versions
 | 2.0.2 | x86_64 | 18.04 | 7.5.0 | 0.26.1 | 2.7.17 | 3.8.0 | - | - | - |
 | 2.0.1 | x86_64 | 18.04 | 7.5.0 | 0.26.1 | 2.7.17 | 3.8.0 | - | - | - |
 | 2.0.0 | x86_64 | 18.04 | 7.5.0 | 0.26.1 | 2.7.17 | 3.8.0 | - | - | - |
+
+</details>
