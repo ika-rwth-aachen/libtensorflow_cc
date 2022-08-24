@@ -103,7 +103,7 @@ make 2-build-cpp-image
 
 #### 3. Export TensorFlow C++ Library Installation Package
 
-This exports the deb-package `libtensorflow-cc_X.Y.Z[-gpu].deb` to the [`libtensorflow-cc`](libtensorflow_cc/) output folder.
+This exports the deb-package `libtensorflow-cc_X.Y.Z[-gpu].deb` to the [`libtensorflow-cc`](libtensorflow-cc/) output folder.
 
 ```shell
 make 3-export-libtensorflow-cc
