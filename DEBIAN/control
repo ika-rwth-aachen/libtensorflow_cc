@@ -1,0 +1,5 @@
+Package: libtensorflow-cc
+Version: TF_VERSION
+Architecture: amd64
+Maintainer: Lennart Reiher <lennart.reiher@rwth-aachen.de>
+Description: TensorFlow C++ Library
