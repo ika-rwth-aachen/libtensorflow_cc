@@ -107,6 +107,10 @@ clean-images: clean-official-devel-images clean-cpp-images clean-libtensorflow-c
 5-print-versions: 2-build-cpp-image
 	$(MAKEFILE_DIR)/scripts/$@.sh
 
+.PHONY: 6-push-image
+6-push-image: 2-build-cpp-image
+	$(MAKEFILE_DIR)/scripts/$@.sh
+
 # ----- MULTI VERSION RULES ----------------------------------------------------
 
 .PHONY: 0-download-official-dockerfiles-all
@@ -132,3 +136,7 @@ clean-images: clean-official-devel-images clean-cpp-images clean-libtensorflow-c
 .PHONY: 5-print-versions-all
 5-print-versions-all:
 	$(foreach TF_VERSION,$(TF_VERSIONS),TF_VERSION=$(TF_VERSION) $(MAKE) 5-print-versions;)
+
+.PHONY: 6-push-image-all
+6-push-image-all:
+	$(foreach TF_VERSION,$(TF_VERSIONS),TF_VERSION=$(TF_VERSION) $(MAKE) 6-push-image;)
