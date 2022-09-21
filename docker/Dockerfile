@@ -57,8 +57,9 @@ ARG GPU_POSTFIX
 
 # create package structure
 WORKDIR /libtensorflow-cc_${TF_VERSION}${GPU_POSTFIX}
+RUN mkdir -p usr/local/include/bin usr/local/include usr/local/lib/ usr/local/lib/cmake/tensorflow
 COPY DEBIAN DEBIAN
-RUN mkdir -p usr/local/include/bin usr/local/include usr/local/lib/
+COPY cmake/TensorFlowConfig.cmake usr/local/lib/cmake/tensorflow/TensorFlowConfig.cmake
 COPY --from=build /tensorflow/bazel-bin/tensorflow/include  usr/local/include/tensorflow
 COPY --from=build /tensorflow/bazel-bin/tensorflow/lib      usr/local/lib/tensorflow
 COPY --from=build /usr/local/bin/protoc                     usr/local/bin/protoc
