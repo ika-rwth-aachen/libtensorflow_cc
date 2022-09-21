@@ -22,5 +22,5 @@ DOWNLOAD_DOCKERFILES_DIR=${DOCKER_DIR}/.Dockerfiles
 DOWNLOAD_DOCKERFILE_DIR=${DOWNLOAD_DOCKERFILES_DIR}/${TF_VERSION}
 
 IMAGE_DEVEL="tensorflow/tensorflow:${TF_VERSION}-devel${GPU_POSTFIX}"
-IMAGE_CPP="gitlab.ika.rwth-aachen.de:5050/automated-driving/docker/tensorflow:${TF_VERSION}-py-cpp${GPU_POSTFIX}"
-IMAGE_LIBTENSORFLOW_CC="gitlab.ika.rwth-aachen.de:5050/automated-driving/docker/tensorflow:${TF_VERSION}-libtensorflow_cc${GPU_POSTFIX}"
+IMAGE_CPP="rwthika/tensorflow-cc:${TF_VERSION}${GPU_POSTFIX}"
+IMAGE_LIBTENSORFLOW_CC="rwthika/tensorflow-cc:${TF_VERSION}-libtensorflow_cc${GPU_POSTFIX}"

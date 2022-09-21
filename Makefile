@@ -22,10 +22,10 @@ else
 endif
 OFFICIAL_DEVEL_IMAGE := tensorflow/tensorflow:$(TF_VERSION)-devel$(GPU_POSTFIX)
 OFFICIAL_DEVEL_IMAGES := tensorflow/tensorflow:*-devel$(GPU_POSTFIX)
-CPP_IMAGE := gitlab.ika.rwth-aachen.de:5050/automated-driving/docker/tensorflow:$(TF_VERSION)-py-cpp$(GPU_POSTFIX)
-CPP_IMAGES := gitlab.ika.rwth-aachen.de:5050/automated-driving/docker/tensorflow:*-py-cpp*
-LIBTENSORFLOW_CC_IMAGE := gitlab.ika.rwth-aachen.de:5050/automated-driving/docker/tensorflow:$(TF_VERSION)-libtensorflow_cc*
-LIBTENSORFLOW_CC_IMAGES := gitlab.ika.rwth-aachen.de:5050/automated-driving/docker/tensorflow:*-libtensorflow_cc*
+CPP_IMAGE := rwthika/tensorflow-cc:$(TF_VERSION)$(GPU_POSTFIX)
+CPP_IMAGES := rwthika/tensorflow-cc:*
+LIBTENSORFLOW_CC_IMAGE := rwthika/tensorflow-cc:$(TF_VERSION)-libtensorflow_cc*
+LIBTENSORFLOW_CC_IMAGES := rwthika/tensorflow-cc:*-libtensorflow_cc*
 
 # === HELPER RULES =============================================================
 

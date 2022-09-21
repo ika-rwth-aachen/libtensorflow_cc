@@ -13,7 +13,7 @@
 docker run --rm \
     --volume $(pwd)/example:/example \
     --workdir /example \
-    ika-rwth-aachen/tensorflow:latest-py-cpp \
+    rwthika/tensorflow-cc:latest \
         ./build-and-run.sh
 
 # Hello from TensorFlow C++ 2.9.1!
@@ -35,41 +35,41 @@ docker run --rm \
 
 | TensorFlow Version | CPU/GPU | Image:Tag |
 | :---: | :---: | --- |
-| 2.9.1 | CPU | `ika-rwth-aachen/tensorflow:latest-py-cpp` |
-| 2.9.1 | GPU | `ika-rwth-aachen/tensorflow:latest-py-cpp-gpu` |
+| 2.9.1 | CPU | `rwthika/tensorflow-cc:latest` |
+| 2.9.1 | GPU | `rwthika/tensorflow-cc:latest-gpu` |
 
 <details>
 <summary><i>All TensorFlow Versions (CPU)</i></summary>
 
 | TensorFlow Version | Image:Tag |
 | :---: | --- |
-| latest | `ika-rwth-aachen/tensorflow:latest-py-cpp` |
-| 2.9.1 | `ika-rwth-aachen/tensorflow:2.9.1-py-cpp` |
-| 2.9.0 | `ika-rwth-aachen/tensorflow:2.9.0-py-cpp` |
-| 2.8.2 | `ika-rwth-aachen/tensorflow:2.8.2-py-cpp` |
-| 2.8.1 | `ika-rwth-aachen/tensorflow:2.8.1-py-cpp` |
-| 2.8.0 | `ika-rwth-aachen/tensorflow:2.8.0-py-cpp` |
-| 2.7.3 | `ika-rwth-aachen/tensorflow:2.7.3-py-cpp` |
-| 2.7.2 | `ika-rwth-aachen/tensorflow:2.7.2-py-cpp` |
-| 2.7.1 | `ika-rwth-aachen/tensorflow:2.7.1-py-cpp` |
-| 2.7.0 | `ika-rwth-aachen/tensorflow:2.7.0-py-cpp` |
-| 2.6.1 | `ika-rwth-aachen/tensorflow:2.6.1-py-cpp` |
-| 2.6.0 | `ika-rwth-aachen/tensorflow:2.6.0-py-cpp` |
-| 2.5.1 | `ika-rwth-aachen/tensorflow:2.5.1-py-cpp` |
-| 2.5.0 | `ika-rwth-aachen/tensorflow:2.5.0-py-cpp` |
-| 2.4.3 | `ika-rwth-aachen/tensorflow:2.4.3-py-cpp` |
-| 2.4.2 | `ika-rwth-aachen/tensorflow:2.4.2-py-cpp` |
-| 2.4.1 | `ika-rwth-aachen/tensorflow:2.4.1-py-cpp` |
-| 2.4.0 | `ika-rwth-aachen/tensorflow:2.4.0-py-cpp` |
-| 2.3.4 | `ika-rwth-aachen/tensorflow:2.3.4-py-cpp` |
-| 2.3.3 | `ika-rwth-aachen/tensorflow:2.3.3-py-cpp` |
-| 2.3.2 | `ika-rwth-aachen/tensorflow:2.3.2-py-cpp` |
-| 2.3.1 | `ika-rwth-aachen/tensorflow:2.3.1-py-cpp` |
-| 2.3.0 | `ika-rwth-aachen/tensorflow:2.3.0-py-cpp` |
-| 2.0.4 | `ika-rwth-aachen/tensorflow:2.0.4-py-cpp` |
-| 2.0.3 | `ika-rwth-aachen/tensorflow:2.0.3-py-cpp` |
-| 2.0.1 | `ika-rwth-aachen/tensorflow:2.0.1-py-cpp` |
-| 2.0.0 | `ika-rwth-aachen/tensorflow:2.0.0-py-cpp` |
+| latest | `rwthika/tensorflow-cc:latest` |
+| 2.9.1 | `rwthika/tensorflow-cc:2.9.1` |
+| 2.9.0 | `rwthika/tensorflow-cc:2.9.0` |
+| 2.8.2 | `rwthika/tensorflow-cc:2.8.2` |
+| 2.8.1 | `rwthika/tensorflow-cc:2.8.1` |
+| 2.8.0 | `rwthika/tensorflow-cc:2.8.0` |
+| 2.7.3 | `rwthika/tensorflow-cc:2.7.3` |
+| 2.7.2 | `rwthika/tensorflow-cc:2.7.2` |
+| 2.7.1 | `rwthika/tensorflow-cc:2.7.1` |
+| 2.7.0 | `rwthika/tensorflow-cc:2.7.0` |
+| 2.6.1 | `rwthika/tensorflow-cc:2.6.1` |
+| 2.6.0 | `rwthika/tensorflow-cc:2.6.0` |
+| 2.5.1 | `rwthika/tensorflow-cc:2.5.1` |
+| 2.5.0 | `rwthika/tensorflow-cc:2.5.0` |
+| 2.4.3 | `rwthika/tensorflow-cc:2.4.3` |
+| 2.4.2 | `rwthika/tensorflow-cc:2.4.2` |
+| 2.4.1 | `rwthika/tensorflow-cc:2.4.1` |
+| 2.4.0 | `rwthika/tensorflow-cc:2.4.0` |
+| 2.3.4 | `rwthika/tensorflow-cc:2.3.4` |
+| 2.3.3 | `rwthika/tensorflow-cc:2.3.3` |
+| 2.3.2 | `rwthika/tensorflow-cc:2.3.2` |
+| 2.3.1 | `rwthika/tensorflow-cc:2.3.1` |
+| 2.3.0 | `rwthika/tensorflow-cc:2.3.0` |
+| 2.0.4 | `rwthika/tensorflow-cc:2.0.4` |
+| 2.0.3 | `rwthika/tensorflow-cc:2.0.3` |
+| 2.0.1 | `rwthika/tensorflow-cc:2.0.1` |
+| 2.0.0 | `rwthika/tensorflow-cc:2.0.0` |
 
 </details>
 
@@ -78,16 +78,16 @@ docker run --rm \
 
 | TensorFlow Version | Image:Tag |
 | :---: | --- |
-| latest | `ika-rwth-aachen/tensorflow:latest-py-cpp-gpu` |
-| 2.9.1 | `ika-rwth-aachen/tensorflow:2.9.1-py-cpp-gpu` |
-| 2.9.0 | `ika-rwth-aachen/tensorflow:2.9.0-py-cpp-gpu` |
-| 2.8.2 | `ika-rwth-aachen/tensorflow:2.8.2-py-cpp-gpu` |
-| 2.8.1 | `ika-rwth-aachen/tensorflow:2.8.1-py-cpp-gpu` |
-| 2.8.0 | `ika-rwth-aachen/tensorflow:2.8.0-py-cpp-gpu` |
-| 2.7.3 | `ika-rwth-aachen/tensorflow:2.7.3-py-cpp-gpu` |
-| 2.7.2 | `ika-rwth-aachen/tensorflow:2.7.2-py-cpp-gpu` |
-| 2.7.1 | `ika-rwth-aachen/tensorflow:2.7.1-py-cpp-gpu` |
-| 2.7.0 | `ika-rwth-aachen/tensorflow:2.7.0-py-cpp-gpu` |
+| latest | `rwthika/tensorflow-cc:latest-gpu` |
+| 2.9.1 | `rwthika/tensorflow-cc:2.9.1-gpu` |
+| 2.9.0 | `rwthika/tensorflow-cc:2.9.0-gpu` |
+| 2.8.2 | `rwthika/tensorflow-cc:2.8.2-gpu` |
+| 2.8.1 | `rwthika/tensorflow-cc:2.8.1-gpu` |
+| 2.8.0 | `rwthika/tensorflow-cc:2.8.0-gpu` |
+| 2.7.3 | `rwthika/tensorflow-cc:2.7.3-gpu` |
+| 2.7.2 | `rwthika/tensorflow-cc:2.7.2-gpu` |
+| 2.7.1 | `rwthika/tensorflow-cc:2.7.1-gpu` |
+| 2.7.0 | `rwthika/tensorflow-cc:2.7.0-gpu` |
 
 </details>
 
@@ -99,7 +99,7 @@ All `make` targets support the flags `TF_VERSION` (defaults to `2.9.1`) and `GPU
 All `make` targets listed below also have a counterpart named `<target>-all`, which can be used to build multiple TensorFlow versions one after the other using the `TF_VERSIONS` flag like so:
 
 ```shell
-make 2-build-cpp-image GPU=1 TF_VERSIONS="2.9.0 2.8.0 2.7.0"
+make 2-build-cpp-image-all GPU=1 TF_VERSIONS="2.9.0 2.8.0 2.7.0"
 ```
 
 #### 0. Download Dockerfiles from TensorFlow repository
@@ -120,7 +120,7 @@ make 1-build-official-devel-image
 
 #### 2. Build TensorFlow C++ Image
 
-Based on the development image, this builds the TensorFlow C++ library `libtensorflow_cc.so` and installs it in a runtime image `ika-rwth-aachen/tensorflow:X.Y.Z-py-cpp[-gpu]`, including both Python and C++ TensorFlow. In an intermediate Docker build stage, a deb-package `libtensorflow-cc_X.Y.Z[-gpu].deb` is created.
+Based on the development image, this builds the TensorFlow C++ library `libtensorflow_cc.so` and installs it in a runtime image `rwthika/tensorflow-cc:X.Y.Z[-gpu]`, including both Python and C++ TensorFlow. In an intermediate Docker build stage, a deb-package `libtensorflow-cc_X.Y.Z[-gpu].deb` is created.
 
 ```shell
 make 2-build-cpp-image
