@@ -1,7 +1,7 @@
 set -e
 set -o pipefail
 
-DEFAULT_TF_VERSION="2.9.1"
+DEFAULT_TF_VERSION="2.9.2"
 DEFAULT_JOBS=$(nproc)
 DEFAULT_GPU=1
 
