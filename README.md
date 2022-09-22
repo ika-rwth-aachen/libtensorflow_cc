@@ -1,15 +1,30 @@
 # libtensorflow_cc
 
+We provide a **pre-built library and a Docker image** for easy installation and usage of the [TensorFlow C++ API](https://www.tensorflow.org/api_docs/cc).
+
+In order to, e.g., run TensorFlow models from C++ source code, one usually needs to build the C++ API in the form of the `libtensorflow_cc.so` library from source. There is no official release of the library and the build from source is only sparsely documented.
+
+We try to remedy this current situation by providing two main components:
+1. We provide the pre-built `libtensorflow_cc.so` including accompanying headers as a one-command-install deb-package. The build supports x86_64 machines running Ubuntu. See [Installation](#installation).
+2. We provide a pre-built Docker image based on the official TensorFlow Docker image. Our Docker image has both TensorFlow Python and TensorFlow C++ installed. See [Docker Images](#docker-images).
+
+---
+
 - [Demo](#demo)
+- [Installation](#installation)
+  - [CMake Integration](#cmake-integration)
 - [Docker Images](#docker-images)
 - [Build](#build)
 - [Supported TensorFlow Versions](#supported-tensorflow-versions)
-- [Version Matrix](#version-matrix)
+  - [Version Matrix](#version-matrix)
 
 
 ## Demo
 
+Run the following from the Git repository root to mount, build and run the [example application](example/) in the pre-built Docker container.
+
 ```bash
+# libtensorflow_cc$
 docker run --rm \
     --volume $(pwd)/example:/example \
     --workdir /example \
@@ -31,7 +46,35 @@ docker run --rm \
 # 11
 ```
 
+
+## Installation
+
+The pre-built `libtensorflow_cc.so` library and accompanying headers are packaged as a deb-package that can be installed as shown below. The deb-package can be downloaded from the Releases page.
+
+```bash
+sudo dpkg -i libtensorflow-cc_2.9.2.deb && ldconfig
+```
+
+### CMake Integration
+
+Use `find_package()` to locate and integrate the TensorFlow C++ API into your CMake project.
+
+```cmake
+# CMakeLists.txt
+find_package(TensorFlow REQUIRED)
+# ...
+add_executable(foo ...) # / add_library(foo ...)
+# ...
+include_directories(foo ${TensorFlow_INCLUDE_DIRS})
+target_link_libraries(foo ${TensorFlow_LIBRARIES})
+```
+
+
 ## Docker Images
+
+Instead of installing the TensorFlow C++ API using our deb-package, you can also run or build on top the pre-built Docker images in our [Docker Hub repository](https://hub.docker.com/r/rwthika/tensorflow-cc).
+
+All images are based on the [official TensorFlow Docker images](https://hub.docker.com/r/tensorflow/tensorflow) and only install the TensorFlow C++ API on top of those. The resulting images therefore enable you to run TensorFlow in both Python and C++.
 
 | TensorFlow Version | CPU/GPU | Image:Tag |
 | :---: | :---: | --- |
@@ -100,17 +143,19 @@ docker run --rm \
 
 ## Build
 
-All `make` targets support the flags `TF_VERSION` (defaults to `2.9.1`) and `GPU` (defaults to `1`) in order to build a specific TensorFlow version in CPU/GPU mode.
+If you would like to build the deb-package and Docker images yourself, use the [`Makefile`](Makefile) as instructed below.
+
+All `make` targets support the flags `TF_VERSION` (defaults to `2.9.2`) and `GPU` (defaults to `1`) in order to build a specific TensorFlow version in CPU/GPU mode.
 
 All `make` targets listed below also have a counterpart named `<target>-all`, which can be used to build multiple TensorFlow versions one after the other using the `TF_VERSIONS` flag like so:
 
 ```shell
-make 2-build-cpp-image-all GPU=1 TF_VERSIONS="2.9.0 2.8.0 2.7.0"
+make 0-download-official-dockerfiles-all TF_VERSIONS="2.9.0 2.8.0 2.7.0"
 ```
 
 #### 0. Download Dockerfiles from TensorFlow repository
 
-This downloads the directory `tensorflow/tools/dockerfiles/` from the TensorFlow repository.
+This downloads the directory [`tensorflow/tools/dockerfiles/` from the TensorFlow repository](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/tools/dockerfiles).
 
 ```shell
 make 0-download-official-dockerfiles
@@ -142,7 +187,7 @@ make 3-export-libtensorflow-cc
 
 #### 4. Test TensorFlow C++
 
-This installs the TensorFlow C++ library inside a new containers and builds and runs the [example application](example/).
+This installs builds and runs the [example application](example/) inside a container of the runtime image.
 
 ```shell
 make 4-test-libtensorflow-cc
@@ -155,6 +200,7 @@ This prints the exact version numbers of all tools involved in the build process
 ```shell
 make 5-print-versions
 ```
+
 
 ## Supported TensorFlow Versions
 
@@ -213,7 +259,7 @@ make 5-print-versions
 </details>
 
 
-## Version Matrix
+### Version Matrix
 
 <details>
 <summary><i>Show Table</i></summary>
@@ -268,3 +314,7 @@ make 5-print-versions
 | 2.0.0 | x86_64 | 18.04 | 7.5.0 | 0.26.1 | 2.7.17 | 3.8.0 | - | - | - |
 
 </details>
+
+## Notice
+
+This repository is not endorsed by or otherwise affiliated with [TensorFlow](https://www.tensorflow.org) or Google. TensorFlow, the TensorFlow logo and any related marks are trademarks of Google Inc.
