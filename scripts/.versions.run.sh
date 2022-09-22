@@ -1,3 +1,4 @@
+#!/bin/bash
 # ==============================================================================
 # MIT License
 # Copyright 2022 Institute for Automotive Engineering of RWTH Aachen University.
@@ -17,8 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 # ==============================================================================
-
-#!/bin/bash
 
 PYTHON_VERSION=$(python --version 2>&1 | awk '{print $2}')
 

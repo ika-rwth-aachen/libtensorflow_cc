@@ -1,3 +1,4 @@
+#!/bin/bash
 # ==============================================================================
 # MIT License
 # Copyright 2022 Institute for Automotive Engineering of RWTH Aachen University.
@@ -18,7 +19,6 @@
 # SOFTWARE.
 # ==============================================================================
 
-#!/bin/bash
 source  $(dirname "$0")/.common.sh
 
 CPU_GPU_POSTFIX=${GPU_POSTFIX:--cpu}
