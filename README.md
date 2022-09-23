@@ -80,12 +80,33 @@ target_link_libraries(foo ${TensorFlow_LIBRARIES})
 
 Instead of installing the TensorFlow C++ API using our deb-package, you can also run or build on top the pre-built Docker images in our [Docker Hub repository](https://hub.docker.com/r/rwthika/tensorflow-cc).
 
-All images are based on the [official TensorFlow Docker images](https://hub.docker.com/r/tensorflow/tensorflow) and only install the TensorFlow C++ API on top of those. The resulting images therefore enable you to run TensorFlow in both Python and C++.
+All images are based on the [official TensorFlow Docker images](https://hub.docker.com/r/tensorflow/tensorflow) and only install the TensorFlow C++ API on top of those. The resulting images therefore enable you to run TensorFlow in both Python and C++. If supported, we offer CPU-only and GPU-supporting images.
 
 | TensorFlow Version | CPU/GPU | Image:Tag |
 | :---: | :---: | --- |
-| 2.9.2 | CPU | `rwthika/tensorflow-cc:latest` |
 | 2.9.2 | GPU | `rwthika/tensorflow-cc:latest-gpu` |
+| 2.9.2 | CPU | `rwthika/tensorflow-cc:latest` |
+
+<details>
+<summary><i>All TensorFlow Versions (GPU)</i></summary>
+
+| TensorFlow Version | Image:Tag |
+| :---: | --- |
+| latest | `rwthika/tensorflow-cc:latest-gpu` |
+| 2.9.2 | `rwthika/tensorflow-cc:2.9.2-gpu` |
+| 2.9.1 | `rwthika/tensorflow-cc:2.9.1-gpu` |
+| 2.9.0 | `rwthika/tensorflow-cc:2.9.0-gpu` |
+| 2.8.3 | `rwthika/tensorflow-cc:2.8.3-gpu` |
+| 2.8.2 | `rwthika/tensorflow-cc:2.8.2-gpu` |
+| 2.8.1 | `rwthika/tensorflow-cc:2.8.1-gpu` |
+| 2.8.0 | `rwthika/tensorflow-cc:2.8.0-gpu` |
+| 2.7.4 | `rwthika/tensorflow-cc:2.7.4-gpu` |
+| 2.7.3 | `rwthika/tensorflow-cc:2.7.3-gpu` |
+| 2.7.2 | `rwthika/tensorflow-cc:2.7.2-gpu` |
+| 2.7.1 | `rwthika/tensorflow-cc:2.7.1-gpu` |
+| 2.7.0 | `rwthika/tensorflow-cc:2.7.0-gpu` |
+
+</details>
 
 <details>
 <summary><i>All TensorFlow Versions (CPU)</i></summary>
@@ -122,27 +143,6 @@ All images are based on the [official TensorFlow Docker images](https://hub.dock
 | 2.0.3 | `rwthika/tensorflow-cc:2.0.3` |
 | 2.0.1 | `rwthika/tensorflow-cc:2.0.1` |
 | 2.0.0 | `rwthika/tensorflow-cc:2.0.0` |
-
-</details>
-
-<details>
-<summary><i>All TensorFlow Versions (GPU)</i></summary>
-
-| TensorFlow Version | Image:Tag |
-| :---: | --- |
-| latest | `rwthika/tensorflow-cc:latest-gpu` |
-| 2.9.2 | `rwthika/tensorflow-cc:2.9.2-gpu` |
-| 2.9.1 | `rwthika/tensorflow-cc:2.9.1-gpu` |
-| 2.9.0 | `rwthika/tensorflow-cc:2.9.0-gpu` |
-| 2.8.3 | `rwthika/tensorflow-cc:2.8.3-gpu` |
-| 2.8.2 | `rwthika/tensorflow-cc:2.8.2-gpu` |
-| 2.8.1 | `rwthika/tensorflow-cc:2.8.1-gpu` |
-| 2.8.0 | `rwthika/tensorflow-cc:2.8.0-gpu` |
-| 2.7.4 | `rwthika/tensorflow-cc:2.7.4-gpu` |
-| 2.7.3 | `rwthika/tensorflow-cc:2.7.3-gpu` |
-| 2.7.2 | `rwthika/tensorflow-cc:2.7.2-gpu` |
-| 2.7.1 | `rwthika/tensorflow-cc:2.7.1-gpu` |
-| 2.7.0 | `rwthika/tensorflow-cc:2.7.0-gpu` |
 
 </details>
 
