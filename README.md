@@ -1,5 +1,11 @@
 # libtensorflow_cc
 
+<p align="center">
+  <img src="https://img.shields.io/github/v/release/ika-rwth-aachen/libtensorflow_cc"/>
+  <img src="https://img.shields.io/github/license/ika-rwth-aachen/libtensorflow_cc"/>
+  <img src="https://img.shields.io/github/stars/ika-rwth-aachen/libtensorflow_cc?style=social"/>
+</p>
+
 We provide a **pre-built library and a Docker image** for easy installation and usage of the [TensorFlow C++ API](https://www.tensorflow.org/api_docs/cc).
 
 In order to, e.g., run TensorFlow models from C++ source code, one usually needs to build the C++ API in the form of the `libtensorflow_cc.so` library from source. There is no official release of the library and the build from source is only sparsely documented.
