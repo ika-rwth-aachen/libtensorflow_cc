@@ -3,6 +3,7 @@
 <p align="center">
   <img src="https://img.shields.io/github/v/release/ika-rwth-aachen/libtensorflow_cc"/>
   <img src="https://img.shields.io/github/license/ika-rwth-aachen/libtensorflow_cc"/>
+  <img src="https://github.com/ika-rwth-aachen/libtensorflow_cc/actions/workflows/test.yml/badge.svg"/>
   <img src="https://img.shields.io/github/stars/ika-rwth-aachen/libtensorflow_cc?style=social"/>
 </p>
 
