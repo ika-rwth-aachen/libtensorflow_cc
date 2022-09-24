@@ -4,10 +4,13 @@ on:
   push:
 
 jobs:
-  container-test-job:
+  build-and-run:
     runs-on: ubuntu-latest
     container: rwthika/tensorflow-cc:latest
     steps:
-      - uses: actions/checkout@v3
-      - run: pwd
-      - run: ls -la
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Build & Run
+        run: |
+          cd example
+          ./build-and-run.sh
