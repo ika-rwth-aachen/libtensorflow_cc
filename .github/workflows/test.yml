@@ -1,0 +1,16 @@
+name: Test
+
+on:
+  push:
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+    container: rwthika/tensorflow-cc:latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Build & Run
+        run: |
+          cd example
+          ./build-and-run.sh
