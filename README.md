@@ -3,7 +3,8 @@
 <p align="center">
   <img src="https://img.shields.io/github/v/release/ika-rwth-aachen/libtensorflow_cc"/>
   <img src="https://img.shields.io/github/license/ika-rwth-aachen/libtensorflow_cc"/>
-  <img src="https://github.com/ika-rwth-aachen/libtensorflow_cc/actions/workflows/test.yml/badge.svg"/>
+  <a href="https://github.com/ika-rwth-aachen/libtensorflow_cc/actions/workflows/test.yml"><img src="https://github.com/ika-rwth-aachen/libtensorflow_cc/actions/workflows/test.yml/badge.svg"/></a>
+  <a href="https://hub.docker.com/r/rwthika/tensorflow-cc"><img src="https://img.shields.io/docker/pulls/rwthika/tensorflow-cc"/></a>
   <img src="https://img.shields.io/github/stars/ika-rwth-aachen/libtensorflow_cc?style=social"/>
 </p>
 
@@ -14,6 +15,8 @@ In order to, e.g., run TensorFlow models from C++ source code, one usually needs
 We try to remedy this current situation by providing two main components:
 1. We provide the pre-built `libtensorflow_cc.so` including accompanying headers as a one-command-install deb-package. The build supports x86_64 machines running Ubuntu. See [Installation](#installation).
 2. We provide a pre-built Docker image based on the official TensorFlow Docker image. Our Docker image has both TensorFlow Python and TensorFlow C++ installed. See [Docker Images](#docker-images).
+
+If you want to use the TensorFlow C++ API to load, inspect, and run saved models and frozen graphs in C++, we suggest that you also check out our helper library [*tensorflow_cpp*](https://github.com/ika-rwth-aachen/tensorflow_cpp). <img src="https://img.shields.io/github/stars/ika-rwth-aachen/tensorflow_cpp?style=social"/>
 
 ---
 
@@ -56,10 +59,22 @@ docker run --rm \
 
 ## Installation
 
-The pre-built `libtensorflow_cc.so` library and accompanying headers are packaged as a deb-package that can be installed as shown below. The deb-package can be downloaded from the Releases page.
+The pre-built `libtensorflow_cc.so` library and accompanying headers are packaged as a deb-package that can be installed as shown below. The deb-package can also be downloaded manually from the [Releases page](https://github.com/ika-rwth-aachen/libtensorflow_cc/releases).
+
+#### GPU
 
 ```bash
-sudo dpkg -i libtensorflow-cc_2.9.2.deb && ldconfig
+wget https://github.com/ika-rwth-aachen/libtensorflow_cc/releases/download/v2.9.2/libtensorflow-cc_2.9.2-gpu.deb
+sudo dpkg -i libtensorflow-cc_2.9.2-gpu.deb
+ldconfig
+```
+
+#### CPU
+
+```bash
+wget https://github.com/ika-rwth-aachen/libtensorflow_cc/releases/download/v2.9.2/libtensorflow-cc_2.9.2.deb
+sudo dpkg -i libtensorflow-cc_2.9.2.deb
+ldconfig
 ```
 
 ### CMake Integration
