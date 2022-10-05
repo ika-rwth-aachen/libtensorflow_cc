@@ -30,14 +30,18 @@ endif()
 
 # find libraries
 find_library(LIBRARY libtensorflow_cc.so PATH_SUFFIXES tensorflow)
+find_library(LIBRARY_FRAMEWORK libtensorflow_framework.so PATH_SUFFIXES tensorflow)
 
 # handle the QUIETLY and REQUIRED arguments and set *_FOUND
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(TensorFlow DEFAULT_MSG INCLUDE_DIRS LIBRARY)
-mark_as_advanced(INCLUDE_DIRS LIBRARY)
+mark_as_advanced(INCLUDE_DIRS LIBRARY LIBRARY_FRAMEWORK)
 
 # set INCLUDE_DIRS and LIBRARIES
 if(TensorFlow_FOUND)
     set(TensorFlow_INCLUDE_DIRS ${INCLUDE_DIRS})
     set(TensorFlow_LIBRARIES ${LIBRARY} ${Protobuf_LIBRARY})
+    if(LIBRARY_FRAMEWORK)
+        string(APPEND TensorFlow_LIBRARIES ${LIBRARY_FRAMEWORK})
+    endif()
 endif()
