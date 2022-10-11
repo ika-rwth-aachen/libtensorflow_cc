@@ -337,6 +337,12 @@ make 5-print-versions
 
 </details>
 
+
+## Acknowledgements
+
+This work is accomplished within the projects [6GEM](https://6gem.de/) (FKZ 16KISK038) and [UNICAR*agil*](https://www.unicaragil.de/) (FKZ 16EMO0284K). We acknowledge the financial support for the projects by the Federal Ministry of Education and Research of Germany (BMBF).
+
+
 ## Notice
 
 This repository is not endorsed by or otherwise affiliated with [TensorFlow](https://www.tensorflow.org) or Google. TensorFlow, the TensorFlow logo and any related marks are trademarks of Google Inc.
