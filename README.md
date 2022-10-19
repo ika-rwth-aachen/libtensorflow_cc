@@ -3,6 +3,7 @@
 <p align="center">
   <img src="https://img.shields.io/github/v/release/ika-rwth-aachen/libtensorflow_cc"/>
   <img src="https://img.shields.io/github/license/ika-rwth-aachen/libtensorflow_cc"/>
+  <a href="https://zenodo.org/badge/latestdoi/540364171"><img src="https://zenodo.org/badge/540364171.svg"></a>
   <a href="https://github.com/ika-rwth-aachen/libtensorflow_cc/actions/workflows/test.yml"><img src="https://github.com/ika-rwth-aachen/libtensorflow_cc/actions/workflows/test.yml/badge.svg"/></a>
   <a href="https://hub.docker.com/r/rwthika/tensorflow-cc"><img src="https://img.shields.io/docker/pulls/rwthika/tensorflow-cc"/></a>
   <img src="https://img.shields.io/github/stars/ika-rwth-aachen/libtensorflow_cc?style=social"/>

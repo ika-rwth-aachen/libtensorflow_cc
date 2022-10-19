@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+
+title: ika-rwth-aachen/libtensorflow_cc
+doi: 10.5281/zenodo.7225836
+type: software
+repository-code: "https://github.com/ika-rwth-aachen/libtensorflow_cc.git"
+authors:
+  - given-names: Lennart
+    family-names: Reiher
+    email: "lennart.reiher@rwth-aachen.de"
+    affiliation: "Institute for Automotive Engineering (ika), RWTH Aachen University"
+    orcid: 0000-0002-7309-164X
