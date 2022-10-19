@@ -345,4 +345,4 @@ This work is accomplished within the projects [6GEM](https://6gem.de/) (FKZ 16KI
 
 ## Notice
 
-This repository is not endorsed by or otherwise affiliated with [TensorFlow](https://www.tensorflow.org) or Google. TensorFlow, the TensorFlow logo and any related marks are trademarks of Google Inc.
+This repository is not endorsed by or otherwise affiliated with [TensorFlow](https://www.tensorflow.org) or Google. TensorFlow, the TensorFlow logo and any related marks are trademarks of Google Inc. [TensorFlow](https://github.com/tensorflow/tensorflow) is released under the [Apache License 2.0](https://github.com/tensorflow/tensorflow/blob/master/LICENSE).
