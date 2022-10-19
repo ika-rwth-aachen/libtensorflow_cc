@@ -85,8 +85,8 @@ COPY --from=build /tensorflow/bazel-bin/tensorflow/lib      usr/local/lib/tensor
 COPY --from=build /usr/local/bin/protoc                     usr/local/bin/protoc
 COPY --from=build /usr/local/include/google                 usr/local/include/google
 COPY --from=build /usr/local/lib                            usr/local/lib/protobuf
-RUN cp -d usr/local/lib/protobuf/lib* usr/local/lib/ && \
-    rm -rf usr/local/lib/protobuf
+RUN cp -d usr/local/lib/tensorflow/lib* usr/local/lib/protobuf/lib* usr/local/lib/ && \
+    rm -rf usr/local/lib/tensorflow usr/local/lib/protobuf
 RUN sed -i "s/TF_VERSION/$TF_VERSION/" DEBIAN/control
 
 # build .deb
