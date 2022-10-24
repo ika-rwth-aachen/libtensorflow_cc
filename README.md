@@ -88,8 +88,8 @@ find_package(TensorFlow REQUIRED)
 # ...
 add_executable(foo ...) # / add_library(foo ...)
 # ...
-include_directories(foo ${TensorFlow_INCLUDE_DIRS})
-target_link_libraries(foo ${TensorFlow_LIBRARIES})
+target_include_directories(foo PRIVATE ${TensorFlow_INCLUDE_DIRS})
+target_link_libraries(foo PRIVATE ${TensorFlow_LIBRARIES})
 ```
 
 
