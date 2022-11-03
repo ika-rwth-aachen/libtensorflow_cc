@@ -28,11 +28,13 @@ DEFAULT_TF_VERSION := 2.9.2
 TF_VERSIONS := 2.9.2 2.9.1 2.9.0 2.8.3 2.8.2 2.8.1 2.8.0 2.7.4 2.7.3 2.7.2 2.7.1 2.7.0 2.6.5 2.6.4 2.6.3 2.6.2 2.6.1 2.6.0 2.5.3 2.5.2 2.5.1 2.5.0 2.4.4 2.4.3 2.4.2 2.4.1 2.4.0 2.3.4 2.3.3 2.3.2 2.3.1 2.3.0 2.2.3 2.2.2 2.2.1 2.2.0 2.1.4 2.1.3 2.1.2 2.1.1 2.1.0 2.0.4 2.0.3 2.0.2 2.0.1 2.0.0
 DEFAULT_JOBS := $(shell nproc)
 DEFAULT_GPU := 1
+DEFAULT_ARCH := $(shell dpkg --print-architecture)
 
 # arguments
 TF_VERSION := $(if $(TF_VERSION),$(TF_VERSION),$(DEFAULT_TF_VERSION))
 JOBS := $(if $(JOBS),$(JOBS),$(DEFAULT_JOBS))
 GPU := $(if $(GPU),$(GPU),$(DEFAULT_GPU))
+ARCH := $(if $(ARCH),$(ARCH),$(DEFAULT_ARCH))
 
 # variables
 ifeq ($(GPU), 1)
@@ -42,7 +44,7 @@ else
 endif
 OFFICIAL_DEVEL_IMAGE := tensorflow/tensorflow:$(TF_VERSION)-devel$(GPU_POSTFIX)
 OFFICIAL_DEVEL_IMAGES := tensorflow/tensorflow:*-devel$(GPU_POSTFIX)
-CPP_IMAGE := rwthika/tensorflow-cc:$(TF_VERSION)$(GPU_POSTFIX)
+CPP_IMAGE := rwthika/tensorflow-cc:$(TF_VERSION)$(GPU_POSTFIX)*
 CPP_IMAGES := rwthika/tensorflow-cc:*
 LIBTENSORFLOW_CC_IMAGE := rwthika/tensorflow-cc:$(TF_VERSION)-libtensorflow_cc*
 LIBTENSORFLOW_CC_IMAGES := rwthika/tensorflow-cc:*-libtensorflow_cc*
