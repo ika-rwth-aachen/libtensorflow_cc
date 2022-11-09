@@ -91,6 +91,7 @@ COPY --from=build /usr/local/lib                            usr/local/lib/protob
 RUN cp -d usr/local/lib/tensorflow/lib* usr/local/lib/protobuf/lib* usr/local/lib/ && \
     rm -rf usr/local/lib/tensorflow usr/local/lib/protobuf
 RUN sed -i "s/TF_VERSION/$TF_VERSION/" DEBIAN/control
+RUN sed -i "s/TARGETARCH/$TARGETARCH/" DEBIAN/control
 
 # build .deb
 WORKDIR /

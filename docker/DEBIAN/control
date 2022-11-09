@@ -1,5 +1,5 @@
 Package: libtensorflow-cc
 Version: TF_VERSION
-Architecture: amd64
+Architecture: TARGETARCH
 Maintainer: Lennart Reiher <lennart.reiher@rwth-aachen.de>
 Description: TensorFlow C++ Library
