@@ -23,7 +23,7 @@ source  $(dirname "$0")/.common.sh
 
 EXPORT_DIR=${REPOSITORY_DIR}/libtensorflow-cc
 CONTAINER_FILE="libtensorflow-cc_${TF_VERSION}${GPU_POSTFIX}.deb"
-EXPORT_FILE="libtensorflow-cc_${TF_VERSION}${GPU_POSTFIX}-${ARCH}.deb"
+EXPORT_FILE="libtensorflow-cc_${TF_VERSION}${GPU_POSTFIX}_${ARCH}.deb"
 STAGE="deb-package"
 
 echo "Building ${IMAGE_LIBTENSORFLOW_CC_ARCH} ... "
