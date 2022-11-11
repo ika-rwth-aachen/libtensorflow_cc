@@ -26,8 +26,11 @@ EXAMPLE_MOUNT="/example"
 CMD="./build-and-run.sh"
 
 echo "Testing libtensorflow_cc in ${IMAGE_CPP} ... "
-if [ "$ARCH" = "amd64" ]; then
-    docker run --rm --gpus all -v ${EXAMPLE_DIR}:${EXAMPLE_MOUNT} -w ${EXAMPLE_MOUNT} ${IMAGE_CPP} ${CMD} | tee ${LOG_FILE}
-elif [ "$ARCH" = "arm64" ]; then
-    docker run --rm --runtime nvidia -v ${EXAMPLE_DIR}:${EXAMPLE_MOUNT} -w ${EXAMPLE_MOUNT} ${IMAGE_CPP} ${CMD} | tee ${LOG_FILE}
+if [[ "$GPU" == "1" && "$ARCH" = "amd64" ]]; then
+    GPU_ARG = "--gpus all"
+elif [[ "$GPU" == "1" && "$ARCH" = "arm64" ]]; then
+    GPU_ARG="--runtime nvidia"
+else
+    GPU_ARG=""
 fi
+docker run --rm ${GPU_ARG} -v ${EXAMPLE_DIR}:${EXAMPLE_MOUNT} -w ${EXAMPLE_MOUNT} ${IMAGE_CPP} ${CMD} | tee ${LOG_FILE}
