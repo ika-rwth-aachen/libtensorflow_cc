@@ -14,8 +14,8 @@ We provide a **pre-built library and a Docker image** for easy installation and 
 In order to, e.g., run TensorFlow models from C++ source code, one usually needs to build the C++ API in the form of the `libtensorflow_cc.so` library from source. There is no official release of the library and the build from source is only sparsely documented.
 
 We try to remedy this current situation by providing two main components:
-1. We provide the pre-built `libtensorflow_cc.so` including accompanying headers as a one-command-install deb-package. The build supports x86_64 machines running Ubuntu. See [Installation](#installation).
-2. We provide a pre-built Docker image based on the official TensorFlow Docker image. Our Docker image has both TensorFlow Python and TensorFlow C++ installed. See [Docker Images](#docker-images).
+1. We provide the pre-built `libtensorflow_cc.so` including accompanying headers as a one-command-install deb-package. The package is available for both x86_64/amd64 and arm64 machines running Ubuntu. See [Installation](#installation).
+2. We provide a pre-built Docker image based on the official TensorFlow Docker image. Our Docker image has both TensorFlow Python and TensorFlow C++ installed. The Docker images support both x86_64/amd64 and arm64 architectures. The arm64 version is specifically targeted at [NVIDIA Jetson Orin](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/). See [Docker Images](#docker-images).
 
 If you want to use the TensorFlow C++ API to load, inspect, and run saved models and frozen graphs in C++, we suggest that you also check out our helper library [*tensorflow_cpp*](https://github.com/ika-rwth-aachen/tensorflow_cpp). <img src="https://img.shields.io/github/stars/ika-rwth-aachen/tensorflow_cpp?style=social"/>
 
@@ -60,21 +60,21 @@ docker run --rm \
 
 ## Installation
 
-The pre-built `libtensorflow_cc.so` library and accompanying headers are packaged as a deb-package that can be installed as shown below. The deb-package can also be downloaded manually from the [Releases page](https://github.com/ika-rwth-aachen/libtensorflow_cc/releases).
+The pre-built `libtensorflow_cc.so` library and accompanying headers are packaged as a deb-package that can be installed as shown below. The deb-package can also be downloaded manually from the [Releases page](https://github.com/ika-rwth-aachen/libtensorflow_cc/releases). We provide versions with and without GPU support for x86_64/amd64 and arm64 architectures.
 
 #### GPU
 
 ```bash
-wget https://github.com/ika-rwth-aachen/libtensorflow_cc/releases/download/v2.9.2/libtensorflow-cc_2.9.2-gpu.deb
-sudo dpkg -i libtensorflow-cc_2.9.2-gpu.deb
+wget https://github.com/ika-rwth-aachen/libtensorflow_cc/releases/download/v2.9.2/libtensorflow-cc_2.9.2-gpu_$(dpkg --print-architecture).deb
+sudo dpkg -i libtensorflow-cc_2.9.2-gpu_$(dpkg --print-architecture).deb
 ldconfig
 ```
 
 #### CPU
 
 ```bash
-wget https://github.com/ika-rwth-aachen/libtensorflow_cc/releases/download/v2.9.2/libtensorflow-cc_2.9.2.deb
-sudo dpkg -i libtensorflow-cc_2.9.2.deb
+wget https://github.com/ika-rwth-aachen/libtensorflow_cc/releases/download/v2.9.2/libtensorflow-cc_2.9.2_$(dpkg --print-architecture).deb
+sudo dpkg -i libtensorflow-cc_2.9.2_$(dpkg --print-architecture).deb
 ldconfig
 ```
 
@@ -95,71 +95,71 @@ target_link_libraries(foo PRIVATE ${TensorFlow_LIBRARIES})
 
 ## Docker Images
 
-Instead of installing the TensorFlow C++ API using our deb-package, you can also run or build on top the pre-built Docker images in our [Docker Hub repository](https://hub.docker.com/r/rwthika/tensorflow-cc).
+Instead of installing the TensorFlow C++ API using our deb-package, you can also run or build on top the pre-built Docker images in our [Docker Hub repository](https://hub.docker.com/r/rwthika/tensorflow-cc). If supported, we offer CPU-only and GPU-supporting images. Starting with TensorFlow 2.9.2, we offer multi-arch images, supporting x86_64/amd64 and arm64 architectures.
 
-All images are based on the [official TensorFlow Docker images](https://hub.docker.com/r/tensorflow/tensorflow) and only install the TensorFlow C++ API on top of those. The resulting images therefore enable you to run TensorFlow in both Python and C++. If supported, we offer CPU-only and GPU-supporting images.
+The amd64 images are based on the [official TensorFlow Docker images](https://hub.docker.com/r/tensorflow/tensorflow). The arm64 images are based on [NVIDIA's official L4T TensorFlow images for Jetson](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-tensorflow), targeted at [NVIDIA Jetson Orin](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/). Our provided images only install the TensorFlow C++ API on top of those. The resulting images therefore enable you to run TensorFlow in both Python and C++. 
 
-| TensorFlow Version | CPU/GPU | Image:Tag |
-| :---: | :---: | --- |
-| 2.9.2 | GPU | `rwthika/tensorflow-cc:latest-gpu` |
-| 2.9.2 | CPU | `rwthika/tensorflow-cc:latest` |
+| TensorFlow Version | CPU/GPU | Architecture | Image:Tag |
+| :---: | :---: | :---: | --- |
+| 2.9.2 | GPU | amd64, arm64 | `rwthika/tensorflow-cc:latest-gpu` |
+| 2.9.2 | CPU | amd64, arm64 | `rwthika/tensorflow-cc:latest` |
 
 <details>
 <summary><i>All TensorFlow Versions (GPU)</i></summary>
 
-| TensorFlow Version | Image:Tag |
-| :---: | --- |
-| latest | `rwthika/tensorflow-cc:latest-gpu` |
-| 2.9.2 | `rwthika/tensorflow-cc:2.9.2-gpu` |
-| 2.9.1 | `rwthika/tensorflow-cc:2.9.1-gpu` |
-| 2.9.0 | `rwthika/tensorflow-cc:2.9.0-gpu` |
-| 2.8.3 | `rwthika/tensorflow-cc:2.8.3-gpu` |
-| 2.8.2 | `rwthika/tensorflow-cc:2.8.2-gpu` |
-| 2.8.1 | `rwthika/tensorflow-cc:2.8.1-gpu` |
-| 2.8.0 | `rwthika/tensorflow-cc:2.8.0-gpu` |
-| 2.7.4 | `rwthika/tensorflow-cc:2.7.4-gpu` |
-| 2.7.3 | `rwthika/tensorflow-cc:2.7.3-gpu` |
-| 2.7.2 | `rwthika/tensorflow-cc:2.7.2-gpu` |
-| 2.7.1 | `rwthika/tensorflow-cc:2.7.1-gpu` |
-| 2.7.0 | `rwthika/tensorflow-cc:2.7.0-gpu` |
+| TensorFlow Version | Architecture | Image:Tag |
+| :---: | :---: | --- |
+| latest | amd64, arm64 | `rwthika/tensorflow-cc:latest-gpu` |
+| 2.9.2 | amd64, arm64 | `rwthika/tensorflow-cc:2.9.2-gpu` |
+| 2.9.1 | amd64 | `rwthika/tensorflow-cc:2.9.1-gpu` |
+| 2.9.0 | amd64 | `rwthika/tensorflow-cc:2.9.0-gpu` |
+| 2.8.3 | amd64 | `rwthika/tensorflow-cc:2.8.3-gpu` |
+| 2.8.2 | amd64 | `rwthika/tensorflow-cc:2.8.2-gpu` |
+| 2.8.1 | amd64 | `rwthika/tensorflow-cc:2.8.1-gpu` |
+| 2.8.0 | amd64 | `rwthika/tensorflow-cc:2.8.0-gpu` |
+| 2.7.4 | amd64 | `rwthika/tensorflow-cc:2.7.4-gpu` |
+| 2.7.3 | amd64 | `rwthika/tensorflow-cc:2.7.3-gpu` |
+| 2.7.2 | amd64 | `rwthika/tensorflow-cc:2.7.2-gpu` |
+| 2.7.1 | amd64 | `rwthika/tensorflow-cc:2.7.1-gpu` |
+| 2.7.0 | amd64 | `rwthika/tensorflow-cc:2.7.0-gpu` |
 
 </details>
 
 <details>
 <summary><i>All TensorFlow Versions (CPU)</i></summary>
 
-| TensorFlow Version | Image:Tag |
-| :---: | --- |
-| latest | `rwthika/tensorflow-cc:latest` |
-| 2.9.2 | `rwthika/tensorflow-cc:2.9.2` |
-| 2.9.1 | `rwthika/tensorflow-cc:2.9.1` |
-| 2.9.0 | `rwthika/tensorflow-cc:2.9.0` |
-| 2.8.3 | `rwthika/tensorflow-cc:2.8.3` |
-| 2.8.2 | `rwthika/tensorflow-cc:2.8.2` |
-| 2.8.1 | `rwthika/tensorflow-cc:2.8.1` |
-| 2.8.0 | `rwthika/tensorflow-cc:2.8.0` |
-| 2.7.4 | `rwthika/tensorflow-cc:2.7.4` |
-| 2.7.3 | `rwthika/tensorflow-cc:2.7.3` |
-| 2.7.2 | `rwthika/tensorflow-cc:2.7.2` |
-| 2.7.1 | `rwthika/tensorflow-cc:2.7.1` |
-| 2.7.0 | `rwthika/tensorflow-cc:2.7.0` |
-| 2.6.1 | `rwthika/tensorflow-cc:2.6.1` |
-| 2.6.0 | `rwthika/tensorflow-cc:2.6.0` |
-| 2.5.1 | `rwthika/tensorflow-cc:2.5.1` |
-| 2.5.0 | `rwthika/tensorflow-cc:2.5.0` |
-| 2.4.3 | `rwthika/tensorflow-cc:2.4.3` |
-| 2.4.2 | `rwthika/tensorflow-cc:2.4.2` |
-| 2.4.1 | `rwthika/tensorflow-cc:2.4.1` |
-| 2.4.0 | `rwthika/tensorflow-cc:2.4.0` |
-| 2.3.4 | `rwthika/tensorflow-cc:2.3.4` |
-| 2.3.3 | `rwthika/tensorflow-cc:2.3.3` |
-| 2.3.2 | `rwthika/tensorflow-cc:2.3.2` |
-| 2.3.1 | `rwthika/tensorflow-cc:2.3.1` |
-| 2.3.0 | `rwthika/tensorflow-cc:2.3.0` |
-| 2.0.4 | `rwthika/tensorflow-cc:2.0.4` |
-| 2.0.3 | `rwthika/tensorflow-cc:2.0.3` |
-| 2.0.1 | `rwthika/tensorflow-cc:2.0.1` |
-| 2.0.0 | `rwthika/tensorflow-cc:2.0.0` |
+| TensorFlow Version | Architecture | Image:Tag |
+| :---: | :---: | --- |
+| latest | amd64, arm64 | `rwthika/tensorflow-cc:latest` |
+| 2.9.2 | amd64, arm64 | `rwthika/tensorflow-cc:2.9.2` |
+| 2.9.1 | amd64 | `rwthika/tensorflow-cc:2.9.1` |
+| 2.9.0 | amd64 | `rwthika/tensorflow-cc:2.9.0` |
+| 2.8.3 | amd64 | `rwthika/tensorflow-cc:2.8.3` |
+| 2.8.2 | amd64 | `rwthika/tensorflow-cc:2.8.2` |
+| 2.8.1 | amd64 | `rwthika/tensorflow-cc:2.8.1` |
+| 2.8.0 | amd64 | `rwthika/tensorflow-cc:2.8.0` |
+| 2.7.4 | amd64 | `rwthika/tensorflow-cc:2.7.4` |
+| 2.7.3 | amd64 | `rwthika/tensorflow-cc:2.7.3` |
+| 2.7.2 | amd64 | `rwthika/tensorflow-cc:2.7.2` |
+| 2.7.1 | amd64 | `rwthika/tensorflow-cc:2.7.1` |
+| 2.7.0 | amd64 | `rwthika/tensorflow-cc:2.7.0` |
+| 2.6.1 | amd64 | `rwthika/tensorflow-cc:2.6.1` |
+| 2.6.0 | amd64 | `rwthika/tensorflow-cc:2.6.0` |
+| 2.5.1 | amd64 | `rwthika/tensorflow-cc:2.5.1` |
+| 2.5.0 | amd64 | `rwthika/tensorflow-cc:2.5.0` |
+| 2.4.3 | amd64 | `rwthika/tensorflow-cc:2.4.3` |
+| 2.4.2 | amd64 | `rwthika/tensorflow-cc:2.4.2` |
+| 2.4.1 | amd64 | `rwthika/tensorflow-cc:2.4.1` |
+| 2.4.0 | amd64 | `rwthika/tensorflow-cc:2.4.0` |
+| 2.3.4 | amd64 | `rwthika/tensorflow-cc:2.3.4` |
+| 2.3.3 | amd64 | `rwthika/tensorflow-cc:2.3.3` |
+| 2.3.2 | amd64 | `rwthika/tensorflow-cc:2.3.2` |
+| 2.3.1 | amd64 | `rwthika/tensorflow-cc:2.3.1` |
+| 2.3.0 | amd64 | `rwthika/tensorflow-cc:2.3.0` |
+| 2.0.4 | amd64 | `rwthika/tensorflow-cc:2.0.4` |
+| 2.0.3 | amd64 | `rwthika/tensorflow-cc:2.0.3` |
+| 2.0.1 | amd64 | `rwthika/tensorflow-cc:2.0.1` |
+| 2.0.0 | amd64 | `rwthika/tensorflow-cc:2.0.0` |
 
 </details>
 
@@ -168,7 +168,7 @@ All images are based on the [official TensorFlow Docker images](https://hub.dock
 
 If you would like to build the deb-package and Docker images yourself, use the [`Makefile`](Makefile) as instructed below.
 
-All `make` targets support the flags `TF_VERSION` (defaults to `2.9.2`) and `GPU` (defaults to `1`) in order to build a specific TensorFlow version in CPU/GPU mode.
+All `make` targets support the flags `TF_VERSION` (defaults to `2.9.2`), `GPU` (defaults to `1`), and `ARCH` (defaults to host architecture) in order to build a specific TensorFlow version in CPU/GPU mode for a specific architecture.
 
 All `make` targets listed below also have a counterpart named `<target>-all`, which can be used to build multiple TensorFlow versions one after the other using the `TF_VERSIONS` flag like so:
 
@@ -230,54 +230,55 @@ make 5-print-versions
 <details>
 <summary><i>Show Table</i></summary>
 
-| Version | Step 1 (CPU) | Step 2 (CPU) | Step 4 (CPU) | Step 1 (GPU) | Step 2 (GPU) | Step 4 (GPU) | Notes |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | --- |
-| 2.9.2 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
-| 2.9.1 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
-| 2.9.0 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
-| 2.8.3 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
-| 2.8.2 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
-| 2.8.1 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
-| 2.8.0 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
-| 2.7.4 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
-| 2.7.3 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
-| 2.7.2 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
-| 2.7.1 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
-| 2.7.0 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
-| 2.6.5 | :white_check_mark: | :x: | - | :x: | - | - | missing image `tensorflow/tensorflow:2.6.5`; unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
-| 2.6.4 | :white_check_mark: | :x: | - | :x: | - | - | missing image `tensorflow/tensorflow:2.6.4`; unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
-| 2.6.3 | :white_check_mark: | :x: | - | :x: | - | - | missing image `tensorflow/tensorflow:2.6.3`; unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
-| 2.6.2 | :white_check_mark: | :x: | - | :x: | - | - | missing image `tensorflow/tensorflow:2.6.2`; unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
-| 2.6.1 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
-| 2.6.0 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
-| 2.5.3 | :white_check_mark: | :x: | - | :x: | - | - | missing image `tensorflow/tensorflow:2.5.3`; unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
-| 2.5.2 | :white_check_mark: | :x: | - | :x: | - | - | missing image `tensorflow/tensorflow:2.5.2`; unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
-| 2.5.1 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
-| 2.5.0 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
-| 2.4.4 | :white_check_mark: | :x: | - | :x: | - | - | missing image `tensorflow/tensorflow:2.4.4`; unable to locate `libcudnn7=8.0.4.30-1+cuda11.0` |
-| 2.4.3 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=8.0.4.30-1+cuda11.0` |
-| 2.4.2 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=8.0.4.30-1+cuda11.0` |
-| 2.4.1 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=8.0.4.30-1+cuda11.0` |
-| 2.4.0 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=8.0.4.30-1+cuda11.0` |
-| 2.3.4 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.4.38-1+cuda10.1` |
-| 2.3.3 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.4.38-1+cuda10.1` |
-| 2.3.2 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.4.38-1+cuda10.1` |
-| 2.3.1 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.4.38-1+cuda10.1` |
-| 2.3.0 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.4.38-1+cuda10.1` |
-| 2.2.3 | :white_check_mark: | :x: | - | :x: | - | - | no module named `numpy`; unable to locate `libcudnn7=7.6.4.38-1+cuda10.1` |
-| 2.2.2 | :white_check_mark: | :x: | - | :x: | - | - | no module named `numpy`; unable to locate `libcudnn7=7.6.4.38-1+cuda10.1` |
-| 2.2.1 | :white_check_mark: | :x: | - | :x: | - | - | no module named `numpy`; unable to locate `libcudnn7=7.6.4.38-1+cuda10.1` |
-| 2.2.0 | :white_check_mark: | :x: | - | :x: | - | - | no module named `numpy`; unable to locate `libcudnn7=7.6.4.38-1+cuda10.1` |
-| 2.1.4 | :white_check_mark: | :x: | - | :x: | - | - | no module named `numpy`; unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
-| 2.1.3 | :white_check_mark: | :x: | - | :x: | - | - | no module named `numpy`; unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
-| 2.1.2 | :white_check_mark: | :x: | - | :x: | - | - | no module named `numpy`; unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
-| 2.1.1 | :white_check_mark: | :x: | - | :x: | - | - | no module named `numpy`; unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
-| 2.1.0 | :white_check_mark: | :x: | - | :x: | - | - | no module named `numpy`; unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
-| 2.0.4 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
-| 2.0.3 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
-| 2.0.2 | :white_check_mark: | :x: | - | :x: | - | - | missing image `tensorflow/tensorflow:2.0.2`; unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
-| 2.0.1 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
-| 2.0.0 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
+| Version | Architecture | Step 1 (CPU) | Step 2 (CPU) | Step 4 (CPU) | Step 1 (GPU) | Step 2 (GPU) | Step 4 (GPU) | Notes |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | --- |
+| 2.9.2 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.9.2 | arm64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.9.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.9.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.8.3 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.8.2 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.8.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.8.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.7.4 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.7.3 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.7.2 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.7.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.7.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.6.5 | amd64 | :white_check_mark: | :x: | - | :x: | - | - | missing image `tensorflow/tensorflow:2.6.5`; unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
+| 2.6.4 | amd64 | :white_check_mark: | :x: | - | :x: | - | - | missing image `tensorflow/tensorflow:2.6.4`; unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
+| 2.6.3 | amd64 | :white_check_mark: | :x: | - | :x: | - | - | missing image `tensorflow/tensorflow:2.6.3`; unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
+| 2.6.2 | amd64 | :white_check_mark: | :x: | - | :x: | - | - | missing image `tensorflow/tensorflow:2.6.2`; unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
+| 2.6.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
+| 2.6.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
+| 2.5.3 | amd64 | :white_check_mark: | :x: | - | :x: | - | - | missing image `tensorflow/tensorflow:2.5.3`; unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
+| 2.5.2 | amd64 | :white_check_mark: | :x: | - | :x: | - | - | missing image `tensorflow/tensorflow:2.5.2`; unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
+| 2.5.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
+| 2.5.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=8.1.0.77-1+cuda11.2` |
+| 2.4.4 | amd64 | :white_check_mark: | :x: | - | :x: | - | - | missing image `tensorflow/tensorflow:2.4.4`; unable to locate `libcudnn7=8.0.4.30-1+cuda11.0` |
+| 2.4.3 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=8.0.4.30-1+cuda11.0` |
+| 2.4.2 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=8.0.4.30-1+cuda11.0` |
+| 2.4.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=8.0.4.30-1+cuda11.0` |
+| 2.4.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=8.0.4.30-1+cuda11.0` |
+| 2.3.4 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.4.38-1+cuda10.1` |
+| 2.3.3 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.4.38-1+cuda10.1` |
+| 2.3.2 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.4.38-1+cuda10.1` |
+| 2.3.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.4.38-1+cuda10.1` |
+| 2.3.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.4.38-1+cuda10.1` |
+| 2.2.3 | amd64 | :white_check_mark: | :x: | - | :x: | - | - | no module named `numpy`; unable to locate `libcudnn7=7.6.4.38-1+cuda10.1` |
+| 2.2.2 | amd64 | :white_check_mark: | :x: | - | :x: | - | - | no module named `numpy`; unable to locate `libcudnn7=7.6.4.38-1+cuda10.1` |
+| 2.2.1 | amd64 | :white_check_mark: | :x: | - | :x: | - | - | no module named `numpy`; unable to locate `libcudnn7=7.6.4.38-1+cuda10.1` |
+| 2.2.0 | amd64 | :white_check_mark: | :x: | - | :x: | - | - | no module named `numpy`; unable to locate `libcudnn7=7.6.4.38-1+cuda10.1` |
+| 2.1.4 | amd64 | :white_check_mark: | :x: | - | :x: | - | - | no module named `numpy`; unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
+| 2.1.3 | amd64 | :white_check_mark: | :x: | - | :x: | - | - | no module named `numpy`; unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
+| 2.1.2 | amd64 | :white_check_mark: | :x: | - | :x: | - | - | no module named `numpy`; unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
+| 2.1.1 | amd64 | :white_check_mark: | :x: | - | :x: | - | - | no module named `numpy`; unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
+| 2.1.0 | amd64 | :white_check_mark: | :x: | - | :x: | - | - | no module named `numpy`; unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
+| 2.0.4 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
+| 2.0.3 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
+| 2.0.2 | amd64 | :white_check_mark: | :x: | - | :x: | - | - | missing image `tensorflow/tensorflow:2.0.2`; unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
+| 2.0.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
+| 2.0.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | unable to locate `libcudnn7=7.6.2.24-1+cuda10.0` |
 
 </details>
 
@@ -289,52 +290,53 @@ make 5-print-versions
 
 | TensorFlow | Architecture | Ubuntu | GCC | Bazel | Python | protobuf | CUDA | cuDNN | TensorRT | GPU Compute Capability |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2.9.2 | x86_64 | 20.04 | 9.4.0 | 5.3.1 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
-| 2.9.1 | x86_64 | 20.04 | 9.4.0 | 5.3.0 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
-| 2.9.0 | x86_64 | 20.04 | 9.4.0 | 5.3.0 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
-| 2.8.3 | x86_64 | 20.04 | 9.4.0 | 4.2.1 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
-| 2.8.2 | x86_64 | 20.04 | 9.4.0 | 4.2.1 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
-| 2.8.1 | x86_64 | 20.04 | 9.4.0 | 4.2.1 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
-| 2.8.0 | x86_64 | 20.04 | 9.4.0 | 4.2.1 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
-| 2.7.4 | x86_64 | 20.04 | 9.4.0 | 3.7.2 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 8.0.0 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
-| 2.7.3 | x86_64 | 20.04 | 9.4.0 | 3.7.2 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 8.0.0 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
-| 2.7.2 | x86_64 | 20.04 | 9.4.0 | 3.7.2 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 8.0.0 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
-| 2.7.1 | x86_64 | 20.04 | 9.4.0 | 3.7.2 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 8.0.0 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
-| 2.7.0 | x86_64 | 20.04 | 9.4.0 | 3.7.2 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 8.0.0 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
-| 2.6.5 | x86_64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.6.4 | x86_64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.6.3 | x86_64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.6.2 | x86_64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.6.1 | x86_64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.6.0 | x86_64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.5.3 | x86_64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.5.2 | x86_64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.5.1 | x86_64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.5.0 | x86_64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.4.4 | x86_64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.4.3 | x86_64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.4.2 | x86_64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.4.1 | x86_64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.4.0 | x86_64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.3.4 | x86_64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.3.3 | x86_64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.3.2 | x86_64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.3.1 | x86_64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.3.0 | x86_64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
-| 2.2.3 | x86_64 | 18.04 | 7.5.0 | 2.0.0 | 2.7.17 | 3.8.0 | - | - | - | - |
-| 2.2.2 | x86_64 | 18.04 | 7.5.0 | 2.0.0 | 2.7.17 | 3.8.0 | - | - | - | - |
-| 2.2.1 | x86_64 | 18.04 | 7.5.0 | 2.0.0 | 2.7.17 | 3.8.0 | - | - | - | - |
-| 2.2.0 | x86_64 | 18.04 | 7.5.0 | 2.0.0 | 2.7.17 | 3.8.0 | - | - | - | - |
-| 2.1.4 | x86_64 | 18.04 | 7.5.0 | 0.29.1 | 2.7.17 | 3.8.0 | - | - | - | - |
-| 2.1.3 | x86_64 | 18.04 | 7.5.0 | 0.29.1 | 2.7.17 | 3.8.0 | - | - | - | - |
-| 2.1.2 | x86_64 | 18.04 | 7.5.0 | 0.29.1 | 2.7.17 | 3.8.0 | - | - | - | - |
-| 2.1.1 | x86_64 | 18.04 | 7.5.0 | 0.29.1 | 2.7.17 | 3.8.0 | - | - | - | - |
-| 2.1.0 | x86_64 | 18.04 | 7.5.0 | 0.29.1 | 2.7.17 | 3.8.0 | - | - | - | - |
-| 2.0.4 | x86_64 | 18.04 | 7.5.0 | 0.26.1 | 2.7.17 | 3.8.0 | - | - | - | - |
-| 2.0.3 | x86_64 | 18.04 | 7.5.0 | 0.26.1 | 2.7.17 | 3.8.0 | - | - | - | - |
-| 2.0.2 | x86_64 | 18.04 | 7.5.0 | 0.26.1 | 2.7.17 | 3.8.0 | - | - | - | - |
-| 2.0.1 | x86_64 | 18.04 | 7.5.0 | 0.26.1 | 2.7.17 | 3.8.0 | - | - | - | - |
-| 2.0.0 | x86_64 | 18.04 | 7.5.0 | 0.26.1 | 2.7.17 | 3.8.0 | - | - | - | - |
+| 2.9.2 | amd64 | 20.04 | 9.4.0 | 5.3.1 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.7, 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
+| 2.9.2 | arm64 | 20.04 | 9.4.0 | 5.3.2 | 3.8.10 | 3.9.2 | 11.4.239 | 8.4.1 | 8.4.1 | 8.7, 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
+| 2.9.1 | amd64 | 20.04 | 9.4.0 | 5.3.0 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
+| 2.9.0 | amd64 | 20.04 | 9.4.0 | 5.3.0 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
+| 2.8.3 | amd64 | 20.04 | 9.4.0 | 4.2.1 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
+| 2.8.2 | amd64 | 20.04 | 9.4.0 | 4.2.1 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
+| 2.8.1 | amd64 | 20.04 | 9.4.0 | 4.2.1 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
+| 2.8.0 | amd64 | 20.04 | 9.4.0 | 4.2.1 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
+| 2.7.4 | amd64 | 20.04 | 9.4.0 | 3.7.2 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 8.0.0 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
+| 2.7.3 | amd64 | 20.04 | 9.4.0 | 3.7.2 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 8.0.0 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
+| 2.7.2 | amd64 | 20.04 | 9.4.0 | 3.7.2 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 8.0.0 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
+| 2.7.1 | amd64 | 20.04 | 9.4.0 | 3.7.2 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 8.0.0 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
+| 2.7.0 | amd64 | 20.04 | 9.4.0 | 3.7.2 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 8.0.0 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
+| 2.6.5 | amd64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.6.4 | amd64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.6.3 | amd64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.6.2 | amd64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.6.1 | amd64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.6.0 | amd64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.5.3 | amd64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.5.2 | amd64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.5.1 | amd64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.5.0 | amd64 | 18.04 | 7.5.0 | 3.7.2 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.4.4 | amd64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.4.3 | amd64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.4.2 | amd64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.4.1 | amd64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.4.0 | amd64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.3.4 | amd64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.3.3 | amd64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.3.2 | amd64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.3.1 | amd64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.3.0 | amd64 | 18.04 | 7.5.0 | 3.1.0 | 3.6.9 | 3.9.2 | - | - | - | - |
+| 2.2.3 | amd64 | 18.04 | 7.5.0 | 2.0.0 | 2.7.17 | 3.8.0 | - | - | - | - |
+| 2.2.2 | amd64 | 18.04 | 7.5.0 | 2.0.0 | 2.7.17 | 3.8.0 | - | - | - | - |
+| 2.2.1 | amd64 | 18.04 | 7.5.0 | 2.0.0 | 2.7.17 | 3.8.0 | - | - | - | - |
+| 2.2.0 | amd64 | 18.04 | 7.5.0 | 2.0.0 | 2.7.17 | 3.8.0 | - | - | - | - |
+| 2.1.4 | amd64 | 18.04 | 7.5.0 | 0.29.1 | 2.7.17 | 3.8.0 | - | - | - | - |
+| 2.1.3 | amd64 | 18.04 | 7.5.0 | 0.29.1 | 2.7.17 | 3.8.0 | - | - | - | - |
+| 2.1.2 | amd64 | 18.04 | 7.5.0 | 0.29.1 | 2.7.17 | 3.8.0 | - | - | - | - |
+| 2.1.1 | amd64 | 18.04 | 7.5.0 | 0.29.1 | 2.7.17 | 3.8.0 | - | - | - | - |
+| 2.1.0 | amd64 | 18.04 | 7.5.0 | 0.29.1 | 2.7.17 | 3.8.0 | - | - | - | - |
+| 2.0.4 | amd64 | 18.04 | 7.5.0 | 0.26.1 | 2.7.17 | 3.8.0 | - | - | - | - |
+| 2.0.3 | amd64 | 18.04 | 7.5.0 | 0.26.1 | 2.7.17 | 3.8.0 | - | - | - | - |
+| 2.0.2 | amd64 | 18.04 | 7.5.0 | 0.26.1 | 2.7.17 | 3.8.0 | - | - | - | - |
+| 2.0.1 | amd64 | 18.04 | 7.5.0 | 0.26.1 | 2.7.17 | 3.8.0 | - | - | - | - |
+| 2.0.0 | amd64 | 18.04 | 7.5.0 | 0.26.1 | 2.7.17 | 3.8.0 | - | - | - | - |
 
 </details>
 

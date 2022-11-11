@@ -19,10 +19,10 @@
 # SOFTWARE.
 # ==============================================================================
 
-PYTHON_VERSION=$(python --version 2>&1 | awk '{print $2}')
+PYTHON_VERSION=$(python3 --version 2>&1 | awk '{print $2}')
 
 if [[ $(command -v python) ]]; then
-    TENSORFLOW_PYTHON_VERSION=$(python -c "exec(\"try:\n  import os; os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'; import tensorflow as tf; print(tf.__version__);\n\rexcept ImportError:\n  pass\")" 2> /dev/null)
+    TENSORFLOW_PYTHON_VERSION=$(python3 -c "exec(\"try:\n  import os; os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'; import tensorflow as tf; print(tf.__version__);\n\rexcept ImportError:\n  pass\")" 2> /dev/null)
 fi
 
 if [[ -f /usr/local/include/tensorflow/tensorflow/core/public/version.h ]]; then
@@ -47,10 +47,10 @@ if [[ -f /usr/include/cudnn_version.h ]]; then
     CUDNN_VERSION=$CUDNN_MAJOR.$CUDNN_MINOR.$CUDNN_PATCH
 fi
 
-if [[ -f /usr/include/x86_64-linux-gnu/NvInferVersion.h ]]; then
-    TENSORRT_MAJOR=$(cat /usr/include/x86_64-linux-gnu/NvInferVersion.h | grep "#define NV_TENSORRT_MAJOR" | sed "s/#define NV_TENSORRT_MAJOR //" | sed "s#//.*##" | sed "s/ //")
-    TENSORRT_MINOR=$(cat /usr/include/x86_64-linux-gnu/NvInferVersion.h | grep "#define NV_TENSORRT_MINOR" | sed "s/#define NV_TENSORRT_MINOR //" | sed "s#//.*##" | sed "s/ //")
-    TENSORRT_PATCH=$(cat /usr/include/x86_64-linux-gnu/NvInferVersion.h | grep "#define NV_TENSORRT_PATCH" | sed "s/#define NV_TENSORRT_PATCH //" | sed "s#//.*##" | sed "s/ //")
+if [[ -f /usr/include/$(uname -m)-linux-gnu/NvInferVersion.h ]]; then
+    TENSORRT_MAJOR=$(cat /usr/include/$(uname -m)-linux-gnu/NvInferVersion.h | grep "#define NV_TENSORRT_MAJOR" | sed "s/#define NV_TENSORRT_MAJOR //" | sed "s#//.*##" | sed "s/ //")
+    TENSORRT_MINOR=$(cat /usr/include/$(uname -m)-linux-gnu/NvInferVersion.h | grep "#define NV_TENSORRT_MINOR" | sed "s/#define NV_TENSORRT_MINOR //" | sed "s#//.*##" | sed "s/ //")
+    TENSORRT_PATCH=$(cat /usr/include/$(uname -m)-linux-gnu/NvInferVersion.h | grep "#define NV_TENSORRT_PATCH" | sed "s/#define NV_TENSORRT_PATCH //" | sed "s#//.*##" | sed "s/ //")
     TENSORRT_VERSION=$TENSORRT_MAJOR.$TENSORRT_MINOR.$TENSORRT_PATCH
 fi
 

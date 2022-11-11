@@ -21,8 +21,10 @@
 # --- build stage for building libtensorflow_cc --------------------------------
 ARG TF_VERSION=master
 ARG GPU_POSTFIX=-gpu
-FROM tensorflow/tensorflow:${TF_VERSION}-devel${GPU_POSTFIX} AS build
+ARG TARGETARCH
+FROM tensorflow/tensorflow:${TF_VERSION}-devel${GPU_POSTFIX}-${TARGETARCH} as build
 
+ARG TARGETARCH
 ARG TF_VERSION
 ARG GPU_POSTFIX
 ARG JOBS="auto"
@@ -35,7 +37,7 @@ WORKDIR /tensorflow
 ENV PYTHON_BIN_PATH=/usr/bin/python3
 ENV PYTHON_LIB_PATH=/usr/lib/python3/dist-packages
 ENV TF_NEED_ROCM=0
-ENV TF_CUDA_COMPUTE_CAPABILITIES=5.3,6.0,6.1,7.0,7.2,7.5,8.0,8.6
+ENV TF_CUDA_COMPUTE_CAPABILITIES=5.3,6.0,6.1,7.0,7.2,7.5,8.0,8.6,8.7
 ENV TF_CUDA_CLANG=0
 ENV GCC_HOST_COMPILER_PATH=/usr/bin/gcc
 ENV CC_OPT_FLAGS="-march=native -Wno-sign-compare"
@@ -72,6 +74,7 @@ RUN apt-get install -y autoconf automake libtool curl make g++ unzip && \
 # --- deb-package stage providing libtensorflow-cc.deb -------------------------
 FROM ubuntu:focal as deb-package
 
+ARG TARGETARCH
 ARG TF_VERSION
 ARG GPU_POSTFIX
 
@@ -88,6 +91,7 @@ COPY --from=build /usr/local/lib                            usr/local/lib/protob
 RUN cp -d usr/local/lib/tensorflow/lib* usr/local/lib/protobuf/lib* usr/local/lib/ && \
     rm -rf usr/local/lib/tensorflow usr/local/lib/protobuf
 RUN sed -i "s/TF_VERSION/$TF_VERSION/" DEBIAN/control
+RUN sed -i "s/TARGETARCH/$TARGETARCH/" DEBIAN/control
 
 # build .deb
 WORKDIR /
@@ -95,7 +99,13 @@ RUN dpkg-deb --build --root-owner-group libtensorflow-cc_${TF_VERSION}${GPU_POST
     rm -rf libtensorflow-cc_${TF_VERSION}${GPU_POSTFIX}/
 
 # --- final stage with TensorFlow Python and C++ Library -----------------------
-FROM tensorflow/tensorflow:${TF_VERSION}${GPU_POSTFIX} as final
+FROM --platform=amd64 tensorflow/tensorflow:${TF_VERSION}${GPU_POSTFIX} as final-amd64
+ARG TARGETARCH
+
+FROM --platform=arm64 nvcr.io/nvidia/l4t-tensorflow:r35.1.0-tf2.9-py3 as final-arm64
+ARG TARGETARCH
+
+FROM "final-${TARGETARCH}" as final
 
 ARG TF_VERSION
 ARG GPU_POSTFIX
@@ -103,4 +113,5 @@ ARG GPU_POSTFIX
 # install TensorFlow C++ API incl. protobuf
 COPY --from=deb-package /libtensorflow-cc_${TF_VERSION}${GPU_POSTFIX}.deb /tmp
 RUN dpkg -i /tmp/libtensorflow-cc_${TF_VERSION}${GPU_POSTFIX}.deb && \
-    ldconfig
+    ldconfig && \
+    rm /tmp/libtensorflow-cc_${TF_VERSION}${GPU_POSTFIX}.deb

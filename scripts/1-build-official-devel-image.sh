@@ -22,8 +22,13 @@
 source  $(dirname "$0")/.common.sh
 
 CPU_GPU_POSTFIX=${GPU_POSTFIX:--cpu}
-DOCKERFILE=${DOWNLOAD_DOCKERFILE_DIR}/dockerfiles/devel${CPU_GPU_POSTFIX}.Dockerfile
+if [ "$ARCH" = "amd64" ]; then
+    DOCKERFILE=${DOWNLOAD_DOCKERFILE_DIR}/dockerfiles/devel${CPU_GPU_POSTFIX}.Dockerfile
+elif [ "$ARCH" = "arm64" ]; then
+    DOCKERFILE=${DOWNLOAD_DOCKERFILE_DIR}/dockerfiles/arm64v8/devel-cpu-arm64v8.Dockerfile
+    sed -i "s/ubuntu:\${UBUNTU_VERSION}/nvcr.io\/nvidia\/l4t-tensorflow:r35.1.0-tf2.9-py3/" $DOCKERFILE
+fi
 BUILD_DIR=${DOWNLOAD_DOCKERFILE_DIR}
 
-echo "Building ${IMAGE_DEVEL} ... "
-docker build -t ${IMAGE_DEVEL} -f ${DOCKERFILE} ${BUILD_DIR} | tee ${LOG_FILE}
+echo "Building ${IMAGE_DEVEL_ARCH} ... "
+docker build -t ${IMAGE_DEVEL_ARCH} -f ${DOCKERFILE} ${BUILD_DIR} | tee ${LOG_FILE}

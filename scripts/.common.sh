@@ -24,11 +24,13 @@ set -o pipefail
 DEFAULT_TF_VERSION="2.9.2"
 DEFAULT_JOBS=$(nproc)
 DEFAULT_GPU=1
+DEFAULT_ARCH=$(dpkg --print-architecture)
 
 TF_VERSION=${TF_VERSION:-${DEFAULT_TF_VERSION}}
 JOBS=${JOBS:-${DEFAULT_JOBS}}
 GPU=${GPU:-${DEFAULT_GPU}}
 [[ $GPU == "1" ]] && GPU_POSTFIX="-gpu" || GPU_POSTFIX=""
+ARCH=${ARCH:-${DEFAULT_ARCH}}
 
 SCRIPT_NAME=$(basename "$0")
 SCRIPT_DIR=$(realpath $(dirname "$0"))
@@ -41,6 +43,7 @@ mkdir -p ${LOG_DIR}
 DOWNLOAD_DOCKERFILES_DIR=${DOCKER_DIR}/.Dockerfiles
 DOWNLOAD_DOCKERFILE_DIR=${DOWNLOAD_DOCKERFILES_DIR}/${TF_VERSION}
 
-IMAGE_DEVEL="tensorflow/tensorflow:${TF_VERSION}-devel${GPU_POSTFIX}"
+IMAGE_DEVEL_ARCH="tensorflow/tensorflow:${TF_VERSION}-devel${GPU_POSTFIX}-${ARCH}"
 IMAGE_CPP="rwthika/tensorflow-cc:${TF_VERSION}${GPU_POSTFIX}"
-IMAGE_LIBTENSORFLOW_CC="rwthika/tensorflow-cc:${TF_VERSION}-libtensorflow_cc${GPU_POSTFIX}"
+IMAGE_CPP_ARCH="${IMAGE_CPP}-${ARCH}"
+IMAGE_LIBTENSORFLOW_CC_ARCH="rwthika/tensorflow-cc:${TF_VERSION}-libtensorflow_cc${GPU_POSTFIX}-${ARCH}"

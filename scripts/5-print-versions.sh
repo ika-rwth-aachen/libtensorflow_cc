@@ -26,6 +26,13 @@ SCRIPT_RUN=${SCRIPT_DIR}/.versions.run.sh
 SCRIPT_MOUNT=/.versions.sh
 CMD="bash ${SCRIPT_MOUNT}"
 
-echo "Getting version information from ${IMAGE_DEVEL} and ${IMAGE_CPP} ... "
-docker run --rm --gpus all -v ${SCRIPT_DEVEL}:${SCRIPT_MOUNT} ${IMAGE_DEVEL} ${CMD} | tee ${LOG_FILE}
-docker run --rm --gpus all -v ${SCRIPT_RUN}:${SCRIPT_MOUNT} ${IMAGE_CPP} ${CMD}| tee -a ${LOG_FILE}
+echo "Getting version information from ${IMAGE_DEVEL_ARCH} and ${IMAGE_CPP} ... "
+if [[ "$GPU" == "1" && "$ARCH" = "amd64" ]]; then
+    GPU_ARG = "--gpus all"
+elif [[ "$GPU" == "1" && "$ARCH" = "arm64" ]]; then
+    GPU_ARG="--runtime nvidia"
+else
+    GPU_ARG=""
+fi
+docker run --rm ${GPU_ARG} -v ${SCRIPT_DEVEL}:${SCRIPT_MOUNT} ${IMAGE_DEVEL_ARCH} ${CMD} | tee ${LOG_FILE}
+docker run --rm ${GPU_ARG} -v ${SCRIPT_RUN}:${SCRIPT_MOUNT} ${IMAGE_CPP} ${CMD}| tee -a ${LOG_FILE}
