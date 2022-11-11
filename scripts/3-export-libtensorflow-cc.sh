@@ -22,8 +22,8 @@
 source  $(dirname "$0")/.common.sh
 
 EXPORT_DIR=${REPOSITORY_DIR}/libtensorflow-cc
-CONTAINER_FILE="libtensorflow-cc_${TF_VERSION}.deb"
-EXPORT_FILE="libtensorflow-cc_${TF_VERSION}${GPU_POSTFIX}.deb"
+CONTAINER_FILE="libtensorflow-cc_${TF_VERSION}${GPU_POSTFIX}.deb"
+EXPORT_FILE="libtensorflow-cc_${TF_VERSION}${GPU_POSTFIX}-${ARCH}.deb"
 STAGE="deb-package"
 
 echo "Building ${IMAGE_LIBTENSORFLOW_CC_ARCH} ... "
@@ -31,5 +31,5 @@ docker build --build-arg TARGETARCH=$ARCH --build-arg TF_VERSION=${TF_VERSION} -
 
 echo "Exporting to $(realpath ${EXPORT_DIR})/${EXPORT_FILE} ... "
 TMP_CONTAINER=$(docker create ${IMAGE_LIBTENSORFLOW_CC_ARCH})
-docker cp ${TMP_CONTAINER}:/${EXPORT_FILE} ${EXPORT_DIR}/
+docker cp ${TMP_CONTAINER}:/${CONTAINER_FILE} ${EXPORT_DIR}/${EXPORT_FILE}
 docker rm -v ${TMP_CONTAINER}

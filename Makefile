@@ -44,7 +44,7 @@ else
 endif
 OFFICIAL_DEVEL_IMAGE := tensorflow/tensorflow:$(TF_VERSION)-devel$(GPU_POSTFIX)
 OFFICIAL_DEVEL_IMAGES := tensorflow/tensorflow:*-devel$(GPU_POSTFIX)
-CPP_IMAGE := rwthika/tensorflow-cc:$(TF_VERSION)$(GPU_POSTFIX)*
+CPP_IMAGE := rwthika/tensorflow-cc:$(TF_VERSION)$(GPU_POSTFIX)-$(ARCH)
 CPP_IMAGES := rwthika/tensorflow-cc:*
 LIBTENSORFLOW_CC_IMAGE := rwthika/tensorflow-cc:$(TF_VERSION)-libtensorflow_cc*
 LIBTENSORFLOW_CC_IMAGES := rwthika/tensorflow-cc:*-libtensorflow_cc*
