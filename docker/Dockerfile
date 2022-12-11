@@ -53,7 +53,8 @@ RUN if [ "${GPU_POSTFIX}" = "-gpu" ]; then \
 
 # move libtensorflow_cc to separate folder for easier Dockerfile COPY
 RUN mkdir bazel-bin/tensorflow/lib && \
-    mv bazel-bin/tensorflow/libtensorflow_cc.so* bazel-bin/tensorflow/lib/
+    mv bazel-bin/tensorflow/libtensorflow_cc.so* bazel-bin/tensorflow/lib/ && \
+    rm bazel-bin/tensorflow/lib/*params
 
 # build protobuf from source, same version as TensorFlow is using
 WORKDIR /
