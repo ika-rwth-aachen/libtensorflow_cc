@@ -33,6 +33,13 @@ ARG JOBS="auto"
 RUN git clone --branch v${TF_VERSION} --depth=1 https://github.com/tensorflow/tensorflow.git /tensorflow
 WORKDIR /tensorflow
 
+# fix build issue in v2.10.0
+# https://github.com/tensorflow/tensorflow/issues/57826
+RUN if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ]; then \
+        git fetch --depth=1 origin b1bd1d6beeac169ce669f81dcbf3c48899ca1ed0 && \
+        git checkout FETCH_HEAD -- tensorflow/BUILD; \
+    fi
+
 # configure compilation
 ENV PYTHON_BIN_PATH=/usr/bin/python3
 ENV PYTHON_LIB_PATH=/usr/lib/python3/dist-packages
