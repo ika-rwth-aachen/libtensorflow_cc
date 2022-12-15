@@ -29,9 +29,30 @@ if [[ $(command -v bazel) ]]; then
     BAZEL_VERSION=$(bazel version 2> /dev/null | grep "Build label" | awk '{print $3}')
 fi
 
+if [[ $(command -v nvcc) ]]; then
+    CUDA_VERSION=$(nvcc --version | grep ^Cuda | awk '{print $6}' | sed 's/V//')
+fi
+
+if [[ -f /usr/include/cudnn_version.h ]]; then
+    CUDNN_MAJOR=$(cat /usr/include/cudnn_version.h | grep "#define CUDNN_MAJOR" | sed "s/#define CUDNN_MAJOR //")
+    CUDNN_MINOR=$(cat /usr/include/cudnn_version.h | grep "#define CUDNN_MINOR" | sed "s/#define CUDNN_MINOR //")
+    CUDNN_PATCH=$(cat /usr/include/cudnn_version.h | grep "#define CUDNN_PATCHLEVEL" | sed "s/#define CUDNN_PATCHLEVEL //")
+    CUDNN_VERSION=$CUDNN_MAJOR.$CUDNN_MINOR.$CUDNN_PATCH
+fi
+
+if [[ -f /usr/include/$(uname -m)-linux-gnu/NvInferVersion.h ]]; then
+    TENSORRT_MAJOR=$(cat /usr/include/$(uname -m)-linux-gnu/NvInferVersion.h | grep "#define NV_TENSORRT_MAJOR" | sed "s/#define NV_TENSORRT_MAJOR //" | sed "s#//.*##" | sed "s/ //")
+    TENSORRT_MINOR=$(cat /usr/include/$(uname -m)-linux-gnu/NvInferVersion.h | grep "#define NV_TENSORRT_MINOR" | sed "s/#define NV_TENSORRT_MINOR //" | sed "s#//.*##" | sed "s/ //")
+    TENSORRT_PATCH=$(cat /usr/include/$(uname -m)-linux-gnu/NvInferVersion.h | grep "#define NV_TENSORRT_PATCH" | sed "s/#define NV_TENSORRT_PATCH //" | sed "s#//.*##" | sed "s/ //")
+    TENSORRT_VERSION=$TENSORRT_MAJOR.$TENSORRT_MINOR.$TENSORRT_PATCH
+fi
+
 cat << EOF
 Architecture:           $ARCH
 Ubuntu:                 $UBUNTU_VERSION
 GCC:                    $GCC_VERSION
 Bazel:                  $BAZEL_VERSION
+CUDA:                   $CUDA_VERSION
+cuDNN:                  $CUDNN_VERSION
+TensorRT:               $TENSORRT_VERSION
 EOF
