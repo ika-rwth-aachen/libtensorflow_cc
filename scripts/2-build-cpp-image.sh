@@ -22,5 +22,5 @@
 source  $(dirname "$0")/.common.sh
 
 echo "Building ${IMAGE_CPP} ... "
-docker build --build-arg TARGETARCH=$ARCH --build-arg TF_VERSION=${TF_VERSION} --build-arg JOBS=${JOBS} --build-arg GPU_POSTFIX=${GPU_POSTFIX} -t ${IMAGE_CPP_ARCH} ${DOCKER_DIR} | tee ${LOG_FILE}
+docker build --build-arg TARGETARCH=$ARCH --build-arg TF_VERSION=${TF_VERSION} --build-arg JOBS=${JOBS} --build-arg GPU_POSTFIX=${GPU_POSTFIX} --build-arg TF_CUDA_COMPUTE_CAPABILITIES=${TF_CUDA_COMPUTE_CAPABILITIES} -t ${IMAGE_CPP_ARCH} ${DOCKER_DIR} | tee ${LOG_FILE}
 docker tag ${IMAGE_CPP_ARCH} ${IMAGE_CPP}

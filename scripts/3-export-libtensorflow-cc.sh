@@ -27,7 +27,7 @@ EXPORT_FILE="libtensorflow-cc_${TF_VERSION}${GPU_POSTFIX}_${ARCH}.deb"
 STAGE="deb-package"
 
 echo "Building ${IMAGE_LIBTENSORFLOW_CC_ARCH} ... "
-docker build --build-arg TARGETARCH=$ARCH --build-arg TF_VERSION=${TF_VERSION} --build-arg JOBS=${JOBS} --build-arg GPU_POSTFIX=${GPU_POSTFIX} --target ${STAGE} -t ${IMAGE_LIBTENSORFLOW_CC_ARCH} ${DOCKER_DIR} | tee ${LOG_FILE}
+docker build --build-arg TARGETARCH=$ARCH --build-arg TF_VERSION=${TF_VERSION} --build-arg JOBS=${JOBS} --build-arg GPU_POSTFIX=${GPU_POSTFIX} --build-arg TF_CUDA_COMPUTE_CAPABILITIES=${TF_CUDA_COMPUTE_CAPABILITIES} --target ${STAGE} -t ${IMAGE_LIBTENSORFLOW_CC_ARCH} ${DOCKER_DIR} | tee ${LOG_FILE}
 
 echo "Exporting to $(realpath ${EXPORT_DIR})/${EXPORT_FILE} ... "
 TMP_CONTAINER=$(docker create ${IMAGE_LIBTENSORFLOW_CC_ARCH})
