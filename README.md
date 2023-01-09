@@ -114,7 +114,7 @@ The amd64 images are based on the [official TensorFlow Docker images](https://hu
 | 2.9.2 | amd64, arm64 | `rwthika/tensorflow-cc:2.9.2-gpu` |
 | 2.9.1 | amd64 | `rwthika/tensorflow-cc:2.9.1-gpu` |
 | 2.9.0 | amd64 | `rwthika/tensorflow-cc:2.9.0-gpu` |
-| 2.8.4 | amd64 | `rwthika/tensorflow-cc:2.8.4-gpu` |
+| 2.8.4 | amd64, arm64 | `rwthika/tensorflow-cc:2.8.4-gpu` |
 | 2.8.3 | amd64 | `rwthika/tensorflow-cc:2.8.3-gpu` |
 | 2.8.2 | amd64 | `rwthika/tensorflow-cc:2.8.2-gpu` |
 | 2.8.1 | amd64 | `rwthika/tensorflow-cc:2.8.1-gpu` |
@@ -243,7 +243,7 @@ make 5-print-versions
 | 2.9.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
 | 2.9.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
 | 2.8.4 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
-| 2.8.4 | arm64 | ??? | ??? | ??? | ??? | ??? | ??? |  |
+| 2.8.4 | arm64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
 | 2.8.3 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
 | 2.8.2 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
 | 2.8.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
@@ -298,14 +298,14 @@ make 5-print-versions
 
 | TensorFlow | Architecture | Ubuntu | GCC | Bazel | Python | protobuf | CUDA | cuDNN | TensorRT | GPU Compute Capability |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2.9.3 | amd64 | 20.04 | 9.4.0 | 5.3.2 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
+| 2.9.3 | amd64 | 20.04 | 9.4.0 | 6.0.0 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
 | 2.9.3 | arm64 | 20.04 | 9.4.0 | 6.0.0 | 3.8.10 | 3.9.2 | 11.4.239 | 8.4.1 | 8.4.1 | 8.7, 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
 | 2.9.2 | amd64 | 20.04 | 9.4.0 | 5.3.1 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
 | 2.9.2 | arm64 | 20.04 | 9.4.0 | 5.3.2 | 3.8.10 | 3.9.2 | 11.4.239 | 8.4.1 | 8.4.1 | 8.7, 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
 | 2.9.1 | amd64 | 20.04 | 9.4.0 | 5.3.0 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
 | 2.9.0 | amd64 | 20.04 | 9.4.0 | 5.3.0 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
 | 2.8.4 | amd64 | 20.04 | 9.4.0 | 4.2.1 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
-| 2.8.4 | arm64 | 20.04 | TODO | TODO | TODO | TODO | TODO | TODO | TODO | TODO |
+| 2.8.4 | amd64 | 20.04 | 9.4.0 | 4.2.1 | 3.8.10 | 3.9.2 | 11.4.166 | 8.3.2 | 8.4.0 | 8.7, 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
 | 2.8.3 | amd64 | 20.04 | 9.4.0 | 4.2.1 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
 | 2.8.2 | amd64 | 20.04 | 9.4.0 | 4.2.1 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
 | 2.8.1 | amd64 | 20.04 | 9.4.0 | 4.2.1 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
