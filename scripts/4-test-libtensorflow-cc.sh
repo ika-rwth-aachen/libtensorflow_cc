@@ -27,7 +27,7 @@ CMD="./build-and-run.sh"
 
 echo "Testing libtensorflow_cc in ${IMAGE_CPP} ... "
 if [[ "$GPU" == "1" && "$ARCH" = "amd64" ]]; then
-    GPU_ARG = "--gpus all"
+    GPU_ARG="--gpus all"
 elif [[ "$GPU" == "1" && "$ARCH" = "arm64" ]]; then
     GPU_ARG="--runtime nvidia"
 else

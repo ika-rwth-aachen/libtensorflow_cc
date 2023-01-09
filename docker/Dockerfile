@@ -21,23 +21,32 @@
 # --- build stage for building libtensorflow_cc --------------------------------
 ARG TF_VERSION=master
 ARG GPU_POSTFIX=-gpu
+ARG TF_CUDA_COMPUTE_CAPABILITIES=5.3,6.0,6.1,7.0,7.2,7.5,8.0,8.6
 ARG TARGETARCH
 FROM tensorflow/tensorflow:${TF_VERSION}-devel${GPU_POSTFIX}-${TARGETARCH} as build
 
 ARG TARGETARCH
 ARG TF_VERSION
 ARG GPU_POSTFIX
+ARG TF_CUDA_COMPUTE_CAPABILITIES
 ARG JOBS="auto"
 
 # clone TensorFlow
 RUN git clone --branch v${TF_VERSION} --depth=1 https://github.com/tensorflow/tensorflow.git /tensorflow
 WORKDIR /tensorflow
 
+# fix build issue in v2.10.0
+# https://github.com/tensorflow/tensorflow/issues/57826
+RUN if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ]; then \
+        git fetch --depth=1 origin b1bd1d6beeac169ce669f81dcbf3c48899ca1ed0 && \
+        git checkout FETCH_HEAD -- tensorflow/BUILD; \
+    fi
+
 # configure compilation
 ENV PYTHON_BIN_PATH=/usr/bin/python3
 ENV PYTHON_LIB_PATH=/usr/lib/python3/dist-packages
 ENV TF_NEED_ROCM=0
-ENV TF_CUDA_COMPUTE_CAPABILITIES=5.3,6.0,6.1,7.0,7.2,7.5,8.0,8.6,8.7
+ENV TF_CUDA_COMPUTE_CAPABILITIES=${TF_CUDA_COMPUTE_CAPABILITIES}
 ENV TF_CUDA_CLANG=0
 ENV GCC_HOST_COMPILER_PATH=/usr/bin/gcc
 ENV CC_OPT_FLAGS="-march=native -Wno-sign-compare"
@@ -53,7 +62,8 @@ RUN if [ "${GPU_POSTFIX}" = "-gpu" ]; then \
 
 # move libtensorflow_cc to separate folder for easier Dockerfile COPY
 RUN mkdir bazel-bin/tensorflow/lib && \
-    mv bazel-bin/tensorflow/libtensorflow_cc.so* bazel-bin/tensorflow/lib/
+    mv bazel-bin/tensorflow/libtensorflow_cc.so* bazel-bin/tensorflow/lib/ && \
+    rm bazel-bin/tensorflow/lib/*params
 
 # build protobuf from source, same version as TensorFlow is using
 WORKDIR /

@@ -23,18 +23,26 @@
 MAKEFLAGS += --no-print-directory
 MAKEFILE_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 
+# build architecture
+DEFAULT_ARCH := $(shell dpkg --print-architecture)
+ARCH := $(if $(ARCH),$(ARCH),$(DEFAULT_ARCH))
+
 # defaults
-DEFAULT_TF_VERSION := 2.9.2
-TF_VERSIONS := 2.9.2 2.9.1 2.9.0 2.8.3 2.8.2 2.8.1 2.8.0 2.7.4 2.7.3 2.7.2 2.7.1 2.7.0 2.6.5 2.6.4 2.6.3 2.6.2 2.6.1 2.6.0 2.5.3 2.5.2 2.5.1 2.5.0 2.4.4 2.4.3 2.4.2 2.4.1 2.4.0 2.3.4 2.3.3 2.3.2 2.3.1 2.3.0 2.2.3 2.2.2 2.2.1 2.2.0 2.1.4 2.1.3 2.1.2 2.1.1 2.1.0 2.0.4 2.0.3 2.0.2 2.0.1 2.0.0
+DEFAULT_TF_VERSION := 2.9.3
+TF_VERSIONS := 2.9.3 2.9.2 2.9.1 2.9.0 2.8.4 2.8.3 2.8.2 2.8.1 2.8.0 2.7.4 2.7.3 2.7.2 2.7.1 2.7.0 2.6.5 2.6.4 2.6.3 2.6.2 2.6.1 2.6.0 2.5.3 2.5.2 2.5.1 2.5.0 2.4.4 2.4.3 2.4.2 2.4.1 2.4.0 2.3.4 2.3.3 2.3.2 2.3.1 2.3.0 2.2.3 2.2.2 2.2.1 2.2.0 2.1.4 2.1.3 2.1.2 2.1.1 2.1.0 2.0.4 2.0.3 2.0.2 2.0.1 2.0.0
 DEFAULT_JOBS := $(shell nproc)
 DEFAULT_GPU := 1
-DEFAULT_ARCH := $(shell dpkg --print-architecture)
+ifeq ($(ARCH), arm64)
+	DEFAULT_TF_CUDA_COMPUTE_CAPABILITIES := 5.3,6.0,6.1,7.0,7.2,7.5,8.0,8.6,8.7
+else
+	DEFAULT_TF_CUDA_COMPUTE_CAPABILITIES := 5.3,6.0,6.1,7.0,7.2,7.5,8.0,8.6
+endif
 
 # arguments
 TF_VERSION := $(if $(TF_VERSION),$(TF_VERSION),$(DEFAULT_TF_VERSION))
 JOBS := $(if $(JOBS),$(JOBS),$(DEFAULT_JOBS))
 GPU := $(if $(GPU),$(GPU),$(DEFAULT_GPU))
-ARCH := $(if $(ARCH),$(ARCH),$(DEFAULT_ARCH))
+TF_CUDA_COMPUTE_CAPABILITIES := $(if $(TF_CUDA_COMPUTE_CAPABILITIES),$(TF_CUDA_COMPUTE_CAPABILITIES),$(DEFAULT_TF_CUDA_COMPUTE_CAPABILITIES))
 
 # variables
 ifeq ($(GPU), 1)

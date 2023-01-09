@@ -28,7 +28,7 @@ CMD="bash ${SCRIPT_MOUNT}"
 
 echo "Getting version information from ${IMAGE_DEVEL_ARCH} and ${IMAGE_CPP} ... "
 if [[ "$GPU" == "1" && "$ARCH" = "amd64" ]]; then
-    GPU_ARG = "--gpus all"
+    GPU_ARG="--gpus all"
 elif [[ "$GPU" == "1" && "$ARCH" = "arm64" ]]; then
     GPU_ARG="--runtime nvidia"
 else
