@@ -19,17 +19,14 @@
 # ==============================================================================
 
 # --- build stage for building libtensorflow_cc --------------------------------
+ARG TARGETARCH
 ARG TF_VERSION=master
 ARG GPU_POSTFIX=-gpu
-ARG TF_CUDA_COMPUTE_CAPABILITIES=5.3,6.0,6.1,7.0,7.2,7.5,8.0,8.6
-ARG TARGETARCH
 FROM tensorflow/tensorflow:${TF_VERSION}-devel${GPU_POSTFIX}-${TARGETARCH} as build
 
 ARG TARGETARCH
 ARG TF_VERSION
 ARG GPU_POSTFIX
-ARG TF_CUDA_COMPUTE_CAPABILITIES
-ARG JOBS="auto"
 
 # clone TensorFlow
 RUN git clone --branch v${TF_VERSION} --depth=1 https://github.com/tensorflow/tensorflow.git /tensorflow
@@ -43,6 +40,7 @@ RUN if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ]; then \
     fi
 
 # configure compilation
+ARG TF_CUDA_COMPUTE_CAPABILITIES=5.3,6.0,6.1,7.0,7.2,7.5,8.0,8.6
 ENV PYTHON_BIN_PATH=/usr/bin/python3
 ENV PYTHON_LIB_PATH=/usr/lib/python3/dist-packages
 ENV TF_NEED_ROCM=0
@@ -56,6 +54,7 @@ RUN ./configure
 # build C++ library
 # fix runtime issue in 2.10.0, 2.10.1, 2.11.0
 # https://github.com/tensorflow/tensorflow/issues/59081
+ARG JOBS="auto"
 RUN if [ "${GPU_POSTFIX}" = "-gpu" ]; then \
         if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ] || [ "${TF_VERSION}" = "2.11.0" ]; then \
             bazel build --jobs ${JOBS} --config=cuda --config=opt --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
