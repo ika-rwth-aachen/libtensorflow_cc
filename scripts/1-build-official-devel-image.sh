@@ -22,6 +22,8 @@
 source  $(dirname "$0")/.common.sh
 
 CPU_GPU_POSTFIX=${GPU_POSTFIX:--cpu}
+BUILD_DIR=${DOWNLOAD_DOCKERFILE_DIR}
+
 if [ "$ARCH" = "amd64" ]; then
     DOCKERFILE=${DOWNLOAD_DOCKERFILE_DIR}/dockerfiles/devel${CPU_GPU_POSTFIX}.Dockerfile
 elif [ "$ARCH" = "arm64" ]; then
@@ -32,7 +34,10 @@ elif [ "$ARCH" = "arm64" ]; then
         sed -i "s/ubuntu:\${UBUNTU_VERSION}/nvcr.io\/nvidia\/l4t-tensorflow:r35.1.0-tf2.9-py3/" $DOCKERFILE
     fi
 fi
-BUILD_DIR=${DOWNLOAD_DOCKERFILE_DIR}
+
+# replace sklearn (deprecated) with scikit-learn
+# https://pypi.org/project/sklearn/
+sed -i "s/sklearn/scikit-learn/" $DOCKERFILE
 
 echo "Building ${IMAGE_DEVEL_ARCH} ... "
 docker build -t ${IMAGE_DEVEL_ARCH} -f ${DOCKERFILE} ${BUILD_DIR} | tee ${LOG_FILE}
