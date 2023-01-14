@@ -54,15 +54,27 @@ ENV TF_SET_ANDROID_WORKSPACE=0
 RUN ./configure
 
 # build C++ library
+# fix build issue in v2.10.0
+# https://github.com/tensorflow/tensorflow/issues/59081
 RUN if [ "${GPU_POSTFIX}" = "-gpu" ]; then \
-        bazel build --jobs ${JOBS} --config=cuda --config=opt --config=monolithic --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
+        if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ]; then \
+            bazel build --jobs ${JOBS} --config=cuda --config=opt --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
+        else \
+            bazel build --jobs ${JOBS} --config=cuda --config=opt --config=monolithic --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
+        fi; \
     else \
-        bazel build --jobs ${JOBS} --config=opt --config=monolithic --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
+        if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ]; then \
+            bazel build --jobs ${JOBS} --config=opt --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
+        else \
+            bazel build --jobs ${JOBS} --config=opt --config=monolithic --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
+        fi; \
     fi
 
 # move libtensorflow_cc to separate folder for easier Dockerfile COPY
 RUN mkdir bazel-bin/tensorflow/lib && \
     mv bazel-bin/tensorflow/libtensorflow_cc.so* bazel-bin/tensorflow/lib/ && \
+    mv bazel-bin/tensorflow/libtensorflow_framework.so* bazel-bin/tensorflow/lib/ && \
+    ln -s libtensorflow_framework.so.2 bazel-bin/tensorflow/lib/libtensorflow_framework.so && \
     rm bazel-bin/tensorflow/lib/*params
 
 # build protobuf from source, same version as TensorFlow is using
