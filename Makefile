@@ -130,15 +130,15 @@ clean-images: clean-official-devel-images clean-cpp-images clean-libtensorflow-c
 	$(MAKEFILE_DIR)/scripts/$@.sh
 
 .PHONY: 4-test-libtensorflow-cc
-4-test-libtensorflow-cc: 2-build-cpp-image
+4-test-libtensorflow-cc:
 	$(MAKEFILE_DIR)/scripts/$@.sh
 
 .PHONY: 5-print-versions
-5-print-versions: 2-build-cpp-image
+5-print-versions:
 	$(MAKEFILE_DIR)/scripts/$@.sh
 
 .PHONY: 6-push-image
-6-push-image: 2-build-cpp-image
+6-push-image:
 	$(MAKEFILE_DIR)/scripts/$@.sh
 
 # ----- MULTI VERSION RULES ----------------------------------------------------
