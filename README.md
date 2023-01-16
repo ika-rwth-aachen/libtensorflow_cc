@@ -1,5 +1,8 @@
 # libtensorflow_cc
 
+TODO:
+- tf_cpp with libtensorflow_framework
+
 <p align="center">
   <img src="https://img.shields.io/github/v/release/ika-rwth-aachen/libtensorflow_cc"/>
   <img src="https://img.shields.io/github/license/ika-rwth-aachen/libtensorflow_cc"/>
@@ -42,7 +45,7 @@ docker run --rm \
     rwthika/tensorflow-cc:latest \
         ./build-and-run.sh
 
-# Hello from TensorFlow C++ 2.9.3!
+# Hello from TensorFlow C++ 2.11.0!
 #
 # A = 
 # 1 2
@@ -65,16 +68,16 @@ The pre-built `libtensorflow_cc.so` library and accompanying headers are package
 #### GPU
 
 ```bash
-wget https://github.com/ika-rwth-aachen/libtensorflow_cc/releases/download/v2.9.3/libtensorflow-cc_2.9.3-gpu_$(dpkg --print-architecture).deb
-sudo dpkg -i libtensorflow-cc_2.9.3-gpu_$(dpkg --print-architecture).deb
+wget https://github.com/ika-rwth-aachen/libtensorflow_cc/releases/download/v2.11.0/libtensorflow-cc_2.11.0-gpu_$(dpkg --print-architecture).deb
+sudo dpkg -i libtensorflow-cc_2.11.0-gpu_$(dpkg --print-architecture).deb
 ldconfig
 ```
 
 #### CPU
 
 ```bash
-wget https://github.com/ika-rwth-aachen/libtensorflow_cc/releases/download/v2.9.3/libtensorflow-cc_2.9.3_$(dpkg --print-architecture).deb
-sudo dpkg -i libtensorflow-cc_2.9.3_$(dpkg --print-architecture).deb
+wget https://github.com/ika-rwth-aachen/libtensorflow_cc/releases/download/v2.11.0/libtensorflow-cc_2.11.0_$(dpkg --print-architecture).deb
+sudo dpkg -i libtensorflow-cc_2.11.0_$(dpkg --print-architecture).deb
 ldconfig
 ```
 
@@ -101,8 +104,8 @@ The amd64 images are based on the [official TensorFlow Docker images](https://hu
 
 | TensorFlow Version | CPU/GPU | Architecture | Image:Tag |
 | :---: | :---: | :---: | --- |
-| 2.9.3 | GPU | amd64, arm64 | `rwthika/tensorflow-cc:latest-gpu` |
-| 2.9.3 | CPU | amd64, arm64 | `rwthika/tensorflow-cc:latest` |
+| 2.11.0 | GPU | amd64, arm64 | `rwthika/tensorflow-cc:latest-gpu` |
+| 2.11.0 | CPU | amd64, arm64 | `rwthika/tensorflow-cc:latest` |
 
 <details>
 <summary><i>All TensorFlow Versions (GPU)</i></summary>
@@ -110,6 +113,9 @@ The amd64 images are based on the [official TensorFlow Docker images](https://hu
 | TensorFlow Version | Architecture | Image:Tag |
 | :---: | :---: | --- |
 | latest | amd64, arm64 | `rwthika/tensorflow-cc:latest-gpu` |
+| 2.11.0 | amd64, arm64 | `rwthika/tensorflow-cc:2.11.0-gpu` |
+| 2.10.1 | amd64, arm64 | `rwthika/tensorflow-cc:2.10.1-gpu` |
+| 2.10.0 | amd64, arm64 | `rwthika/tensorflow-cc:2.10.0-gpu` |
 | 2.9.3 | amd64, arm64 | `rwthika/tensorflow-cc:2.9.3-gpu` |
 | 2.9.2 | amd64, arm64 | `rwthika/tensorflow-cc:2.9.2-gpu` |
 | 2.9.1 | amd64 | `rwthika/tensorflow-cc:2.9.1-gpu` |
@@ -133,6 +139,9 @@ The amd64 images are based on the [official TensorFlow Docker images](https://hu
 | TensorFlow Version | Architecture | Image:Tag |
 | :---: | :---: | --- |
 | latest | amd64, arm64 | `rwthika/tensorflow-cc:latest` |
+| 2.11.0 | amd64, arm64 | `rwthika/tensorflow-cc:2.11.0` |
+| 2.10.1 | amd64, arm64 | `rwthika/tensorflow-cc:2.10.1` |
+| 2.10.0 | amd64, arm64 | `rwthika/tensorflow-cc:2.10.0` |
 | 2.9.3 | amd64, arm64 | `rwthika/tensorflow-cc:2.9.3` |
 | 2.9.2 | amd64, arm64 | `rwthika/tensorflow-cc:2.9.2` |
 | 2.9.1 | amd64 | `rwthika/tensorflow-cc:2.9.1` |
@@ -172,7 +181,7 @@ The amd64 images are based on the [official TensorFlow Docker images](https://hu
 
 If you would like to build the deb-package and Docker images yourself, use the [`Makefile`](Makefile) as instructed below.
 
-All `make` targets support the flags `TF_VERSION` (defaults to `2.9.3`), `GPU` (defaults to `1`), and `ARCH` (defaults to host architecture) in order to build a specific TensorFlow version in CPU/GPU mode for a specific architecture.
+All `make` targets support the flags `TF_VERSION` (defaults to `2.11.0`), `GPU` (defaults to `1`), and `ARCH` (defaults to host architecture) in order to build a specific TensorFlow version in CPU/GPU mode for a specific architecture.
 
 All `make` targets listed below also have a counterpart named `<target>-all`, which can be used to build multiple TensorFlow versions one after the other using the `TF_VERSIONS` flag like so:
 
@@ -236,6 +245,12 @@ make 5-print-versions
 
 | Version | Architecture | Step 1 (CPU) | Step 2 (CPU) | Step 4 (CPU) | Step 1 (GPU) | Step 2 (GPU) | Step 4 (GPU) | Notes |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | --- |
+| 2.11.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.11.0 | arm64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.10.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.10.1 | arm64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.10.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.10.0 | arm64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
 | 2.9.3 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
 | 2.9.3 | arm64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
 | 2.9.2 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
@@ -298,6 +313,12 @@ make 5-print-versions
 
 | TensorFlow | Architecture | Ubuntu | GCC | Bazel | Python | protobuf | CUDA | cuDNN | TensorRT | GPU Compute Capability |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.11.0 | amd64 | 20.04 | 9.4.0 | 6.0.0 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
+| 2.11.0 | arm64 | ??? | ??? | ??? | ??? | ??? | ??? | ??? | ??? | ??? |
+| 2.10.1 | amd64 | 20.04 | 9.4.0 | 6.0.0 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
+| 2.10.1 | arm64 | ??? | ??? | ??? | ??? | ??? | ??? | ??? | ??? | ??? |
+| 2.10.0 | amd64 | 20.04 | 9.4.0 | 6.0.0 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
+| 2.10.0 | arm64 | ??? | ??? | ??? | ??? | ??? | ??? | ??? | ??? | ??? |
 | 2.9.3 | amd64 | 20.04 | 9.4.0 | 6.0.0 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
 | 2.9.3 | arm64 | 20.04 | 9.4.0 | 6.0.0 | 3.8.10 | 3.9.2 | 11.4.239 | 8.4.1 | 8.4.1 | 8.7, 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
 | 2.9.2 | amd64 | 20.04 | 9.4.0 | 5.3.1 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
