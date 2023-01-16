@@ -44,7 +44,9 @@ int main(int argc, char **argv) {
 
   // run graph and fetch outputs of A, x, and b
   vector<tensorflow::Tensor> outputs;
-  session.Run({A, x, b}, &outputs);
+  tensorflow::Status status = session.Run({A, x, b}, &outputs);
+  if (!status.ok())
+    throw std::runtime_error("Failed to run TensorFlow graph: " + status.ToString());
 
   // print results
   cout << "Hello from TensorFlow C++ " << TF_VERSION_STRING << "!" << endl << endl;
