@@ -1,8 +1,5 @@
 # libtensorflow_cc
 
-TODO:
-- tf_cpp with libtensorflow_framework
-
 <p align="center">
   <img src="https://img.shields.io/github/v/release/ika-rwth-aachen/libtensorflow_cc"/>
   <img src="https://img.shields.io/github/license/ika-rwth-aachen/libtensorflow_cc"/>
