@@ -19,23 +19,20 @@
 # ==============================================================================
 
 # --- build stage for building libtensorflow_cc --------------------------------
+ARG TARGETARCH
 ARG TF_VERSION=master
 ARG GPU_POSTFIX=-gpu
-ARG TF_CUDA_COMPUTE_CAPABILITIES=5.3,6.0,6.1,7.0,7.2,7.5,8.0,8.6
-ARG TARGETARCH
 FROM tensorflow/tensorflow:${TF_VERSION}-devel${GPU_POSTFIX}-${TARGETARCH} as build
 
 ARG TARGETARCH
 ARG TF_VERSION
 ARG GPU_POSTFIX
-ARG TF_CUDA_COMPUTE_CAPABILITIES
-ARG JOBS="auto"
 
 # clone TensorFlow
 RUN git clone --branch v${TF_VERSION} --depth=1 https://github.com/tensorflow/tensorflow.git /tensorflow
 WORKDIR /tensorflow
 
-# fix build issue in v2.10.0
+# fix build issue in 2.10.0, 2.10.1
 # https://github.com/tensorflow/tensorflow/issues/57826
 RUN if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ]; then \
         git fetch --depth=1 origin b1bd1d6beeac169ce669f81dcbf3c48899ca1ed0 && \
@@ -43,6 +40,7 @@ RUN if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ]; then \
     fi
 
 # configure compilation
+ARG TF_CUDA_COMPUTE_CAPABILITIES=5.3,6.0,6.1,7.0,7.2,7.5,8.0,8.6
 ENV PYTHON_BIN_PATH=/usr/bin/python3
 ENV PYTHON_LIB_PATH=/usr/lib/python3/dist-packages
 ENV TF_NEED_ROCM=0
@@ -54,15 +52,28 @@ ENV TF_SET_ANDROID_WORKSPACE=0
 RUN ./configure
 
 # build C++ library
+# fix runtime issue in 2.10.0, 2.10.1, 2.11.0
+# https://github.com/tensorflow/tensorflow/issues/59081
+ARG JOBS="auto"
 RUN if [ "${GPU_POSTFIX}" = "-gpu" ]; then \
-        bazel build --jobs ${JOBS} --config=cuda --config=opt --config=monolithic --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
+        if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ] || [ "${TF_VERSION}" = "2.11.0" ]; then \
+            bazel build --jobs ${JOBS} --config=cuda --config=opt --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
+        else \
+            bazel build --jobs ${JOBS} --config=cuda --config=opt --config=monolithic --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
+        fi; \
     else \
-        bazel build --jobs ${JOBS} --config=opt --config=monolithic --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
+        if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ] || [ "${TF_VERSION}" = "2.11.0" ]; then \
+            bazel build --jobs ${JOBS} --config=opt --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
+        else \
+            bazel build --jobs ${JOBS} --config=opt --config=monolithic --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
+        fi; \
     fi
 
 # move libtensorflow_cc to separate folder for easier Dockerfile COPY
 RUN mkdir bazel-bin/tensorflow/lib && \
     mv bazel-bin/tensorflow/libtensorflow_cc.so* bazel-bin/tensorflow/lib/ && \
+    mv bazel-bin/tensorflow/libtensorflow_framework.so* bazel-bin/tensorflow/lib/ && \
+    ln -s libtensorflow_framework.so.2 bazel-bin/tensorflow/lib/libtensorflow_framework.so && \
     rm bazel-bin/tensorflow/lib/*params
 
 # build protobuf from source, same version as TensorFlow is using

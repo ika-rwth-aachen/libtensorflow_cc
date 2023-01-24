@@ -23,7 +23,11 @@ source  $(dirname "$0")/.common.sh
 
 EXAMPLE_DIR=${REPOSITORY_DIR}/example
 EXAMPLE_MOUNT="/example"
-CMD="./build-and-run.sh"
+if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ] || [ "${TF_VERSION}" = "2.11.0" ]; then
+    CMD="./build-and-run.sh"
+else
+    CMD="./build-and-run-monolithic.sh"
+fi
 
 echo "Testing libtensorflow_cc in ${IMAGE_CPP} ... "
 if [[ "$GPU" == "1" && "$ARCH" = "amd64" ]]; then
