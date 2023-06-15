@@ -21,7 +21,7 @@
 set -e
 set -o pipefail
 
-DEFAULT_TF_VERSION="2.11.0"
+DEFAULT_TF_VERSION="2.12.0"
 DEFAULT_JOBS=$(nproc)
 DEFAULT_GPU=1
 DEFAULT_ARCH=$(dpkg --print-architecture)

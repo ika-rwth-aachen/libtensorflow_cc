@@ -80,7 +80,7 @@ RUN mkdir bazel-bin/tensorflow/lib && \
 WORKDIR /
 RUN apt-get install -y autoconf automake libtool curl make g++ unzip && \
     PROTOBUF_URL=$(grep -Eho "https://github.com/protocolbuffers/protobuf/archive/.*\.(zip|tar.gz)" tensorflow/tensorflow/workspace*.bzl) && \
-    PROTOBUF_VERSION=$(echo $PROTOBUF_URL | grep -Eo "(.?\..?\..?|[0-9a-f]{40})") && \
+    PROTOBUF_VERSION=$(echo $PROTOBUF_URL | grep -Eo "([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}|[0-9a-f]{40})") && \
     wget -q $PROTOBUF_URL -O protobuf.archive && \
     (unzip -q protobuf.archive || tar -xzf protobuf.archive) && \
     rm protobuf.archive && \
