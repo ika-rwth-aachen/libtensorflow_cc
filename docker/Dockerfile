@@ -47,7 +47,7 @@ RUN if [ "${TF_VERSION}" = "2.13.0" ]; then \
     fi
 
 # configure compilation
-ARG TF_CUDA_COMPUTE_CAPABILITIES=5.3,6.0,6.1,7.0,7.2,7.5,8.0,8.6
+ARG TF_CUDA_COMPUTE_CAPABILITIES=6.0,6.1,7.0,7.5,8.0,8.6,8.9,9.0
 ENV PYTHON_BIN_PATH=/usr/bin/python3
 ENV PYTHON_LIB_PATH=/usr/lib/python3/dist-packages
 ENV TF_NEED_ROCM=0
