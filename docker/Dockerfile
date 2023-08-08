@@ -138,6 +138,18 @@ FROM "final-${TARGETARCH}" as final
 ARG TF_VERSION
 ARG GPU_POSTFIX
 
+# install GCC 11 for 2.13
+# https://stackoverflow.com/a/67453352/7264974
+RUN if [ "${TF_VERSION}" = "2.13.0" ]; then \
+        add-apt-repository ppa:ubuntu-toolchain-r/test && \
+        apt-get update && \
+        apt-get install -y gcc-11 g++-11 && \
+        rm -rf /var/lib/apt/lists/* && \
+        update-alternatives --remove-all cpp && \
+        update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 90 --slave /usr/bin/g++ g++ /usr/bin/g++-9 --slave /usr/bin/gcov gcov /usr/bin/gcov-9 --slave /usr/bin/gcc-ar gcc-ar /usr/bin/gcc-ar-9 --slave /usr/bin/gcc-ranlib gcc-ranlib /usr/bin/gcc-ranlib-9 --slave /usr/bin/cpp cpp /usr/bin/cpp-9 && \
+        update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 110 --slave /usr/bin/g++ g++ /usr/bin/g++-11 --slave /usr/bin/gcov gcov /usr/bin/gcov-11 --slave /usr/bin/gcc-ar gcc-ar /usr/bin/gcc-ar-11 --slave /usr/bin/gcc-ranlib gcc-ranlib /usr/bin/gcc-ranlib-11  --slave /usr/bin/cpp cpp /usr/bin/cpp-11 ; \
+    fi
+
 # install TensorFlow C++ API incl. protobuf
 COPY --from=deb-package /libtensorflow-cc_${TF_VERSION}${GPU_POSTFIX}.deb /tmp
 RUN dpkg -i /tmp/libtensorflow-cc_${TF_VERSION}${GPU_POSTFIX}.deb && \
