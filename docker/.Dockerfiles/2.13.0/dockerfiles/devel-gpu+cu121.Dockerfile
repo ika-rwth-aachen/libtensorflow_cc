@@ -19,19 +19,19 @@
 # throughout. Please refer to the TensorFlow dockerfiles documentation
 # for more information.
 
-ARG UBUNTU_VERSION=20.04
+ARG UBUNTU_VERSION=22.04
 
 ARG ARCH=
-ARG CUDA=11.8
-FROM nvidia/cuda${ARCH:+-$ARCH}:${CUDA}.0-devel-ubuntu${UBUNTU_VERSION} as base
+ARG CUDA=12.1
+FROM nvidia/cuda${ARCH:+-$ARCH}:${CUDA}.1-devel-ubuntu${UBUNTU_VERSION} as base
 # ARCH and CUDA are specified again because the FROM directive resets ARGs
 # (but their default value is retained if set previously)
 ARG ARCH
 ARG CUDA
-ARG CUDNN=8.6.0.163-1
+ARG CUDNN=8.9.3.28-1
 ARG CUDNN_MAJOR_VERSION=8
 ARG LIB_DIR_PREFIX=x86_64
-ARG LIBNVINFER=8.5.3-1
+ARG LIBNVINFER=8.6.1.6-1
 ARG LIBNVINFER_MAJOR_VERSION=8
 
 # Needed for string substitution
@@ -75,15 +75,15 @@ RUN [[ "${ARCH}" = "ppc64le" ]] || { apt-get update && \
         apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/7fa2af80.pub && \
         echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /"  > /etc/apt/sources.list.d/tensorRT.list && \
         apt-get update && \
-        apt-get install -y --no-install-recommends libnvinfer${LIBNVINFER_MAJOR_VERSION}=${LIBNVINFER}+cuda11.8 \
-        libnvinfer-dev=${LIBNVINFER}+cuda11.8 \
-        libnvinfer-plugin-dev=${LIBNVINFER}+cuda11.8 \
-        libnvinfer-plugin${LIBNVINFER_MAJOR_VERSION}=${LIBNVINFER}+cuda11.8 \
+        apt-get install -y --no-install-recommends libnvinfer${LIBNVINFER_MAJOR_VERSION}=${LIBNVINFER}+cuda12.0 \
+        libnvinfer-dev=${LIBNVINFER}+cuda12.0 \
+        libnvinfer-plugin-dev=${LIBNVINFER}+cuda12.0 \
+        libnvinfer-plugin${LIBNVINFER_MAJOR_VERSION}=${LIBNVINFER}+cuda12.0 \
         && apt-get clean \
         && rm -rf /var/lib/apt/lists/*; }
 
 # Configure the build for our CUDA configuration.
-ENV LD_LIBRARY_PATH /usr/local/cuda-11.8/targets/x86_64-linux/lib:/usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:/usr/include/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH:/usr/local/cuda/lib64/stubs:/usr/local/cuda-11.8/lib64:/usr/local/cuda-11.2/lib64
+ENV LD_LIBRARY_PATH /usr/local/cuda-12.1/targets/x86_64-linux/lib:/usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:/usr/include/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH:/usr/local/cuda/lib64/stubs:/usr/local/cuda-12.1/lib64:/usr/local/cuda-11.2/lib64
 ENV TF_NEED_CUDA 1
 ENV TF_NEED_TENSORRT 1
 ENV TF_CUDA_VERSION=${CUDA}
@@ -124,6 +124,7 @@ RUN apt-get update && apt-get install -y \
     virtualenv \
     swig
 
+RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip --no-cache-dir install \
     Pillow \
     h5py \
@@ -131,9 +132,9 @@ RUN python3 -m pip --no-cache-dir install \
     tb-nightly \
     matplotlib \
     mock \
-    'numpy<1.19.0' \
+    numpy \
     scipy \
-    scikit-learn \
+    sklearn \
     pandas \
     future \
     portpicker \
