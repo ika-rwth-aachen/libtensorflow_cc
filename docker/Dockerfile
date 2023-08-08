@@ -39,6 +39,13 @@ RUN if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ]; then \
         git checkout FETCH_HEAD -- tensorflow/BUILD; \
     fi
 
+# fix build issue in 2.13.0
+# https://github.com/tensorflow/tensorflow/issues/60398#issuecomment-1537040602
+COPY patch/2.13.0/workspace2.bzl.patch .
+RUN if [ "${TF_VERSION}" = "2.13.0" ]; then \
+        git apply workspace2.bzl.patch; \
+    fi
+
 # configure compilation
 ARG TF_CUDA_COMPUTE_CAPABILITIES=5.3,6.0,6.1,7.0,7.2,7.5,8.0,8.6
 ENV PYTHON_BIN_PATH=/usr/bin/python3
@@ -56,13 +63,13 @@ RUN ./configure
 # https://github.com/tensorflow/tensorflow/issues/59081
 ARG JOBS="auto"
 RUN if [ "${GPU_POSTFIX}" = "-gpu" ]; then \
-        if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ] || [ "${TF_VERSION}" = "2.11.0" ]; then \
+        if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ] || [ "${TF_VERSION}" = "2.11.0" ] || [ "${TF_VERSION}" = "2.13.0" ]; then \
             bazel build --jobs ${JOBS} --config=cuda --config=opt --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
         else \
             bazel build --jobs ${JOBS} --config=cuda --config=opt --config=monolithic --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
         fi; \
     else \
-        if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ] || [ "${TF_VERSION}" = "2.11.0" ]; then \
+        if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ] || [ "${TF_VERSION}" = "2.11.0" ] || [ "${TF_VERSION}" = "2.13.0" ]; then \
             bazel build --jobs ${JOBS} --config=opt --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
         else \
             bazel build --jobs ${JOBS} --config=opt --config=monolithic --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
