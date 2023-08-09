@@ -23,7 +23,7 @@ source  $(dirname "$0")/.common.sh
 
 EXAMPLE_DIR=${REPOSITORY_DIR}/example
 EXAMPLE_MOUNT="/example"
-if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ] || [ "${TF_VERSION}" = "2.11.0" ] || [ "${TF_VERSION}" = "2.12.0" ] || [ "${TF_VERSION}" = "2.12.1" ] || [ "${TF_VERSION}" = "2.13.0" ]; then
+if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ] || [ "${TF_VERSION}" = "2.11.0" ] || [ "${TF_VERSION}" = "2.11.1" ] || [ "${TF_VERSION}" = "2.12.0" ] || [ "${TF_VERSION}" = "2.12.1" ] || [ "${TF_VERSION}" = "2.13.0" ]; then
     CMD="./build-and-run.sh"
 else
     CMD="./build-and-run-monolithic.sh"

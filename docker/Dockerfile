@@ -59,17 +59,17 @@ ENV TF_SET_ANDROID_WORKSPACE=0
 RUN ./configure
 
 # build C++ library
-# fix runtime issue in 2.10.0, 2.10.1, 2.11.0, 2.12.0, 2.12.1, 2.13.0
+# fix runtime issue in 2.10.0, 2.10.1, 2.11.0, 2.11.1, 2.12.0, 2.12.1, 2.13.0 by building non-monolithic
 # https://github.com/tensorflow/tensorflow/issues/59081
 ARG JOBS="auto"
 RUN if [ "${GPU_POSTFIX}" = "-gpu" ]; then \
-        if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ] || [ "${TF_VERSION}" = "2.11.0" ] || [ "${TF_VERSION}" = "2.12.0" ] || [ "${TF_VERSION}" = "2.12.1" ] || [ "${TF_VERSION}" = "2.13.0" ]; then \
+        if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ] || [ "${TF_VERSION}" = "2.11.0" ] || [ "${TF_VERSION}" = "2.11.1" ] || [ "${TF_VERSION}" = "2.12.0" ] || [ "${TF_VERSION}" = "2.12.1" ] || [ "${TF_VERSION}" = "2.13.0" ]; then \
             bazel build --jobs ${JOBS} --config=cuda --config=opt --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
         else \
             bazel build --jobs ${JOBS} --config=cuda --config=opt --config=monolithic --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
         fi; \
     else \
-        if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ] || [ "${TF_VERSION}" = "2.11.0" ] || [ "${TF_VERSION}" = "2.12.0" ] || [ "${TF_VERSION}" = "2.12.1" ] || [ "${TF_VERSION}" = "2.13.0" ]; then \
+        if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ] || [ "${TF_VERSION}" = "2.11.0" ] || [ "${TF_VERSION}" = "2.11.1" ] || [ "${TF_VERSION}" = "2.12.0" ] || [ "${TF_VERSION}" = "2.12.1" ] || [ "${TF_VERSION}" = "2.13.0" ]; then \
             bazel build --jobs ${JOBS} --config=opt --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
         else \
             bazel build --jobs ${JOBS} --config=opt --config=monolithic --verbose_failures tensorflow:libtensorflow_cc.so tensorflow:install_headers; \
@@ -138,7 +138,12 @@ FROM "final-${TARGETARCH}" as final
 ARG TF_VERSION
 ARG GPU_POSTFIX
 
-# install GCC 11 for 2.12.0, 2.12.1, 2.13.0
+# make sure gcc is installed
+RUN apt-get update && \
+    apt-get install -y build-essential && \
+    rm -rf /var/lib/apt/lists/*
+
+# install gcc 11 for 2.12.0, 2.12.1, 2.13.0
 # https://stackoverflow.com/a/67453352/7264974
 RUN if [ "${TF_VERSION}" = "2.12.0" ] || [ "${TF_VERSION}" = "2.12.1" ] || [ "${TF_VERSION}" = "2.13.0" ]; then \
         add-apt-repository ppa:ubuntu-toolchain-r/test && \

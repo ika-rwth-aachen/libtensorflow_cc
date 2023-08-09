@@ -142,6 +142,7 @@ The amd64 images are based on the [official TensorFlow Docker images](https://hu
 | 2.13.0 | amd64 | `rwthika/tensorflow-cc:2.13.0` |
 | 2.12.1 | amd64 | - |
 | 2.12.0 | amd64 | `rwthika/tensorflow-cc:2.12.0` |
+| 2.11.1 | amd64, arm64 | `rwthika/tensorflow-cc:2.11.1` |
 | 2.11.0 | amd64, arm64 | `rwthika/tensorflow-cc:2.11.0` |
 | 2.10.1 | amd64, arm64 | `rwthika/tensorflow-cc:2.10.1` |
 | 2.10.0 | amd64, arm64 | `rwthika/tensorflow-cc:2.10.0` |
@@ -251,6 +252,7 @@ make 5-print-versions
 | 2.13.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
 | 2.12.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | missing image `tensorflow/tensorflow:2.12.1` |
 | 2.12.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.11.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | missing image `nvidia/cuda:11.2.1-base-ubuntu20.04` |
 | 2.11.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
 | 2.11.0 | arm64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
 | 2.10.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
@@ -322,6 +324,7 @@ make 5-print-versions
 | 2.13.0 | amd64 | 20.04 | 9.4.0/11.4.0 | 6.3.2 | 3.8.10 | 3.21.9 | 11.8.89 | 8.6.0 | 8.5.3 | 9.0, 8.9, 8.6, 8.0, 7.5, 7.0, 6.1, 6.0 |
 | 2.12.1 | amd64 | 20.04 | 9.4.0/11.4.0 | 6.3.2 | 3.8.10 | 3.21.9 | 11.8.89 | 8.6.0 | 8.5.3 | 9.0, 8.9, 8.6, 8.0, 7.5, 7.0, 6.1, 6.0 |
 | 2.12.0 | amd64 | 20.04 | 9.4.0/11.4.0 | 6.3.2 | 3.8.10 | 3.21.9 | 11.8.89 | 8.6.0 | 8.5.3 | 9.0, 8.9, 8.6, 8.0, 7.5, 7.0, 6.1, 6.0 |
+| 2.11.1 | amd64 | 20.04 | 9.4.0 | 6.3.2 | 3.8.10 | 3.9.2 | - | - | - | - |
 | 2.11.0 | amd64 | 20.04 | 9.4.0 | 6.0.0 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
 | 2.11.0 | arm64 | 20.04 | 9.4.0 | 6.0.0 | 3.8.10 | 3.9.2 | 11.4.239 | 8.4.1 | 8.4.1 | 8.7, 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
 | 2.10.1 | amd64 | 20.04 | 9.4.0 | 6.0.0 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
