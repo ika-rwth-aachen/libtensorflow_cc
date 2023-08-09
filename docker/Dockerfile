@@ -77,11 +77,34 @@ RUN if [ "${GPU_POSTFIX}" = "-gpu" ]; then \
     fi
 
 # move libtensorflow_cc to separate folder for easier Dockerfile COPY
-RUN mkdir bazel-bin/tensorflow/lib && \
+RUN mkdir -p bazel-bin/tensorflow/lib && \
+    mkdir -p bazel-bin/tensorflow/pip && \
     mv bazel-bin/tensorflow/libtensorflow_cc.so* bazel-bin/tensorflow/lib/ && \
     mv bazel-bin/tensorflow/libtensorflow_framework.so* bazel-bin/tensorflow/lib/ && \
-    ln -s libtensorflow_framework.so.2 bazel-bin/tensorflow/lib/libtensorflow_framework.so && \
+    ln -sf libtensorflow_framework.so.2 bazel-bin/tensorflow/lib/libtensorflow_framework.so && \
     rm bazel-bin/tensorflow/lib/*params
+
+# build pip package
+# fix runtime issue in 2.10.0, 2.10.1, 2.11.0, 2.11.1, 2.12.0, 2.12.1, 2.13.0 by building non-monolithic
+# https://github.com/tensorflow/tensorflow/issues/59081
+ARG BUILD_PIP_PACKAGE=0
+RUN if [ "${BUILD_PIP_PACKAGE}" = "1" ]; then \
+        if [ "${GPU_POSTFIX}" = "-gpu" ]; then \
+            if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ] || [ "${TF_VERSION}" = "2.11.0" ] || [ "${TF_VERSION}" = "2.11.1" ] || [ "${TF_VERSION}" = "2.12.0" ] || [ "${TF_VERSION}" = "2.12.1" ] || [ "${TF_VERSION}" = "2.13.0" ]; then \
+                bazel build --jobs ${JOBS} --config=cuda --config=opt --verbose_failures tensorflow/tools/pip_package:build_pip_package; \
+            else \
+                bazel build --jobs ${JOBS} --config=cuda --config=opt --config=monolithic --verbose_failures tensorflow/tools/pip_package:build_pip_package; \
+            fi; \
+        else \
+            if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ] || [ "${TF_VERSION}" = "2.11.0" ] || [ "${TF_VERSION}" = "2.11.1" ] || [ "${TF_VERSION}" = "2.12.0" ] || [ "${TF_VERSION}" = "2.12.1" ] || [ "${TF_VERSION}" = "2.13.0" ]; then \
+                bazel build --jobs ${JOBS} --config=opt --verbose_failures tensorflow/tools/pip_package:build_pip_package; \
+            else \
+                bazel build --jobs ${JOBS} --config=opt --config=monolithic --verbose_failures tensorflow/tools/pip_package:build_pip_package; \
+            fi; \
+        fi; \
+        pip install patchelf && \
+        ./bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow/pip ; \
+    fi
 
 # build protobuf from source, same version as TensorFlow is using
 WORKDIR /
@@ -125,6 +148,10 @@ RUN sed -i "s/TARGETARCH/$TARGETARCH/" DEBIAN/control
 WORKDIR /
 RUN dpkg-deb --build --root-owner-group libtensorflow-cc_${TF_VERSION}${GPU_POSTFIX} && \
     rm -rf libtensorflow-cc_${TF_VERSION}${GPU_POSTFIX}/
+
+# copy pip package, if built
+ARG BUILD_PIP_PACKAGE=0
+COPY --from=build /tmp/tensorflow/pip/tensorflow*.whl /
 
 # --- final stage with TensorFlow Python and C++ Library -----------------------
 FROM --platform=amd64 tensorflow/tensorflow:${TF_VERSION}${GPU_POSTFIX} as final-amd64

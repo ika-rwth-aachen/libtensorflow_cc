@@ -185,7 +185,7 @@ The amd64 images are based on the [official TensorFlow Docker images](https://hu
 
 If you would like to build the deb-package and Docker images yourself, use the [`Makefile`](Makefile) as instructed below.
 
-All `make` targets support the flags `TF_VERSION` (defaults to `2.13.0`), `GPU` (defaults to `1`), and `ARCH` (defaults to host architecture) in order to build a specific TensorFlow version in CPU/GPU mode for a specific architecture.
+All `make` targets support the flags `TF_VERSION` (defaults to `2.13.0`), `GPU` (defaults to `1`), and `ARCH` (defaults to host architecture) in order to build a specific TensorFlow version in CPU/GPU mode for a specific architecture. The flag `BUILD_PIP_PACKAGE` (defaults to `0`) enables you to also build the pip-package alongside.
 
 All `make` targets listed below also have a counterpart named `<target>-all`, which can be used to build multiple TensorFlow versions one after the other using the `TF_VERSIONS` flag like so:
 
