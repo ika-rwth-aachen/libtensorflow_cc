@@ -21,7 +21,7 @@
 
 ARG UBUNTU_VERSION=20.04
 
-FROM nvcr.io/nvidia/l4t-tensorflow:r35.3.1-tf2.11-py3 AS base
+FROM ubuntu:${UBUNTU_VERSION} AS base
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \

@@ -173,8 +173,9 @@ RUN apt-get update && \
 # install gcc 11 for 2.12.0, 2.12.1, 2.13.0
 # https://stackoverflow.com/a/67453352/7264974
 RUN if [ "${TF_VERSION}" = "2.12.0" ] || [ "${TF_VERSION}" = "2.12.1" ] || [ "${TF_VERSION}" = "2.13.0" ]; then \
-        add-apt-repository ppa:ubuntu-toolchain-r/test && \
         apt-get update && \
+	    apt-get install -y software-properties-common && \
+        add-apt-repository ppa:ubuntu-toolchain-r/test && \
         apt-get install -y gcc-11 g++-11 && \
         rm -rf /var/lib/apt/lists/* && \
         update-alternatives --remove-all cpp && \
