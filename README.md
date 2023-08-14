@@ -101,8 +101,8 @@ The amd64 images are based on the [official TensorFlow Docker images](https://hu
 
 | TensorFlow Version | CPU/GPU | Architecture | Image:Tag |
 | :---: | :---: | :---: | --- |
-| 2.13.0 | GPU | amd64, arm64 | `rwthika/tensorflow-cc:latest-gpu` |
-| 2.13.0 | CPU | amd64, arm64 | `rwthika/tensorflow-cc:latest` |
+| 2.13.0 | GPU | amd64 | `rwthika/tensorflow-cc:latest-gpu` |
+| 2.13.0 | CPU | amd64 | `rwthika/tensorflow-cc:latest` |
 
 <details>
 <summary><i>All TensorFlow Versions (GPU)</i></summary>
