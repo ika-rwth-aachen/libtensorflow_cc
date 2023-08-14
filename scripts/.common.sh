@@ -22,9 +22,9 @@ set -e
 set -o pipefail
 
 DEFAULT_TF_VERSION="2.13.0"
-DEFAULT_JOBS=$(nproc)
+DEFAULT_JOBS=$(nproc 2> /dev/null || sysctl -n hw.ncpu)
 DEFAULT_GPU=1
-DEFAULT_ARCH=$(dpkg --print-architecture)
+DEFAULT_ARCH=$(dpkg --print-architecture 2> /dev/null || uname -m)
 
 TF_VERSION=${TF_VERSION:-${DEFAULT_TF_VERSION}}
 JOBS=${JOBS:-${DEFAULT_JOBS}}
