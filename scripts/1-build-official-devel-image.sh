@@ -31,15 +31,11 @@ fi
 if [ "$ARCH" = "amd64" ]; then
     DOCKERFILE=${DOWNLOAD_DOCKERFILE_DIR}/dockerfiles/devel${CPU_GPU_POSTFIX}.Dockerfile
 elif [ "$ARCH" = "arm64" ]; then
-    if [ "$TF_VERSION" = "2.13.0" ]; then
-        DOCKERFILE=${DOWNLOAD_DOCKERFILE_DIR}/dockerfiles/arm64v8/devel${CPU_GPU_POSTFIX}-arm64v8.Dockerfile
+    DOCKERFILE=${DOWNLOAD_DOCKERFILE_DIR}/dockerfiles/arm64v8/devel-cpu-arm64v8.Dockerfile
+    if [ "$TF_VERSION" = "2.8.4" ]; then
+        sed -i "s/ubuntu:\${UBUNTU_VERSION}/nvcr.io\/nvidia\/l4t-tensorflow:r34.1.1-tf2.8-py3/" $DOCKERFILE
     else
-        DOCKERFILE=${DOWNLOAD_DOCKERFILE_DIR}/dockerfiles/arm64v8/devel-cpu-arm64v8.Dockerfile
-        if [ "$TF_VERSION" = "2.8.4" ]; then
-            sed -i $BSD_SED_ARG "s/ubuntu:\${UBUNTU_VERSION}/nvcr.io\/nvidia\/l4t-tensorflow:r34.1.1-tf2.8-py3/" $DOCKERFILE
-        else
-            sed -i $BSD_SED_ARG "s/ubuntu:\${UBUNTU_VERSION}/nvcr.io\/nvidia\/l4t-tensorflow:r35.1.0-tf2.9-py3/" $DOCKERFILE
-        fi
+        sed -i "s/ubuntu:\${UBUNTU_VERSION}/nvcr.io\/nvidia\/l4t-tensorflow:r35.1.0-tf2.9-py3/" $DOCKERFILE
     fi
 fi
 

@@ -21,7 +21,7 @@
 
 ARG UBUNTU_VERSION=20.04
 
-FROM ubuntu:${UBUNTU_VERSION} AS base
+FROM rwthika/cuda:11.8-cudnn-trt-ubuntu20-devel AS base
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -86,14 +86,13 @@ RUN apt-get update && apt-get install -y \
 
 RUN python3 -m pip --no-cache-dir install \
     Pillow \
-    keras_preprocessing \
     tb-nightly \
     h5py \
     matplotlib \
     mock \
     'numpy<1.19.0' \
     scipy \
-    scikit-learn \
+    sklearn \
     pandas \
     portpicker \
     enum34
