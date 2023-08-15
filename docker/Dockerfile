@@ -78,7 +78,6 @@ RUN if [ "${GPU_POSTFIX}" = "-gpu" ]; then \
 
 # move libtensorflow_cc to separate folder for easier Dockerfile COPY
 RUN mkdir -p bazel-bin/tensorflow/lib && \
-    mkdir -p bazel-bin/tensorflow/pip && \
     mv bazel-bin/tensorflow/libtensorflow_cc.so* bazel-bin/tensorflow/lib/ && \
     mv bazel-bin/tensorflow/libtensorflow_framework.so* bazel-bin/tensorflow/lib/ && \
     ln -sf libtensorflow_framework.so.2 bazel-bin/tensorflow/lib/libtensorflow_framework.so && \
@@ -104,6 +103,9 @@ RUN if [ "${BUILD_PIP_PACKAGE}" = "1" ]; then \
         fi; \
         pip install patchelf && \
         ./bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow/pip ; \
+    else \
+        mkdir -p /tmp/tensorflow/pip && \
+        touch /tmp/tensorflow/pip/tensorflow-dummy.whl ; \
     fi
 
 # build protobuf from source, same version as TensorFlow is using
