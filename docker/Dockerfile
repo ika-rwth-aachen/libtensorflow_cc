@@ -39,10 +39,10 @@ RUN if [ "${TF_VERSION}" = "2.10.0" ] || [ "${TF_VERSION}" = "2.10.1" ]; then \
         git checkout FETCH_HEAD -- tensorflow/BUILD; \
     fi
 
-# fix GPU-version build issue in 2.12.0, 2.12.1, 2.13.0
+# fix GPU-version build issue in 2.11.1, 2.12.0, 2.12.1, 2.13.0
 # https://github.com/tensorflow/tensorflow/issues/60398#issuecomment-1537040602
 COPY patch/ patch/
-RUN if [ "${TF_VERSION}" = "2.12.0" ] || [ "${TF_VERSION}" = "2.12.1" ] || [ "${TF_VERSION}" = "2.13.0" ]; then \
+RUN if [ "${TF_VERSION}" = "2.11.1" ] || [ "${TF_VERSION}" = "2.12.0" ] || [ "${TF_VERSION}" = "2.12.1" ] || [ "${TF_VERSION}" = "2.13.0" ]; then \
         git apply patch/${TF_VERSION}/workspace2.bzl.patch; \
     fi
 
