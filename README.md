@@ -113,6 +113,7 @@ The amd64 images are based on the [official TensorFlow Docker images](https://hu
 | 2.13.0 | amd64 | `rwthika/tensorflow-cc:2.13.0-gpu` |
 | 2.12.1 | amd64 | - |
 | 2.12.0 | amd64 | `rwthika/tensorflow-cc:2.12.0-gpu` |
+| 2.11.1 | amd64 | `rwthika/tensorflow-cc:2.11.0-gpu` |
 | 2.11.0 | amd64, arm64 | `rwthika/tensorflow-cc:2.11.0-gpu` |
 | 2.10.1 | amd64, arm64 | `rwthika/tensorflow-cc:2.10.1-gpu` |
 | 2.10.0 | amd64, arm64 | `rwthika/tensorflow-cc:2.10.0-gpu` |
@@ -252,7 +253,7 @@ make 5-print-versions
 | 2.13.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
 | 2.12.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | missing image `tensorflow/tensorflow:2.12.1` |
 | 2.12.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
-| 2.11.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | - | missing image `nvidia/cuda:11.2.1-base-ubuntu20.04` |
+| 2.11.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
 | 2.11.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
 | 2.11.0 | arm64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
 | 2.10.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
