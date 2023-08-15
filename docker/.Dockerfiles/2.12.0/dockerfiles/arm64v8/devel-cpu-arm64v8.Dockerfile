@@ -84,16 +84,17 @@ RUN apt-get update && apt-get install -y \
     libblas-dev \
     liblapack-dev
 
-RUN python3 -m pip --no-cache-dir install \
+RUN python3 -m pip install --upgrade pip && \
+    python3 -m pip --no-cache-dir install \
     Pillow \
     keras_preprocessing \
     tb-nightly \
     h5py \
     matplotlib \
     mock \
-    'numpy<1.19.0' \
+    numpy \
     scipy \
-    sklearn \
+    scikit-learn \
     pandas \
     portpicker \
     enum34
