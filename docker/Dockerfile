@@ -110,7 +110,7 @@ RUN if [ "${BUILD_PIP_PACKAGE}" = "1" ]; then \
 
 # build protobuf from source, same version as TensorFlow is using
 WORKDIR /
-RUN apt-get install -y autoconf automake libtool curl make g++ unzip && \
+RUN apt-get install -y autoconf automake libtool curl make g++ unzip wget && \
     PROTOBUF_URL=$(grep -Eho "https://github.com/protocolbuffers/protobuf/archive/.*\.(zip|tar.gz)" tensorflow/tensorflow/workspace*.bzl) && \
     PROTOBUF_VERSION=$(echo $PROTOBUF_URL | grep -Eo "([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}|[0-9a-f]{40})") && \
     wget -q $PROTOBUF_URL -O protobuf.archive && \
