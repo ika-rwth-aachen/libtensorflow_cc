@@ -159,11 +159,16 @@ COPY --from=build /tmp/tensorflow/pip/tensorflow*.whl /
 FROM --platform=amd64 tensorflow/tensorflow:${TF_VERSION}${GPU_POSTFIX} as final-amd64
 ARG TARGETARCH
 
-FROM --platform=arm64 nvcr.io/nvidia/l4t-tensorflow:r35.1.0-tf2.9-py3 as final-arm64
+# FROM ubuntu
+FROM --platform=arm64 ubuntu:focal as final-arm64
 ARG TARGETARCH
 
-FROM "final-${TARGETARCH}" as final
+FROM --platform=arm64 nvcr.io/nvidia/l4t-tensorflow:r35.1.0-tf2.9-py3 as final-arm64-gpu
+ARG TARGETARCH
 
+FROM "final-${TARGETARCH}${GPU_POSTFIX}" as final
+
+ARG DEBIAN_FRONTEND=noninteractive
 ARG TF_VERSION
 ARG GPU_POSTFIX
 
