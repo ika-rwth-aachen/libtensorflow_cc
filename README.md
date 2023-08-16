@@ -102,7 +102,7 @@ The amd64 images are based on the [official TensorFlow Docker images](https://hu
 | TensorFlow Version | CPU/GPU | Architecture | Image:Tag |
 | :---: | :---: | :---: | --- |
 | 2.13.0 | GPU | amd64 | `rwthika/tensorflow-cc:latest-gpu` |
-| 2.13.0 | CPU | amd64 | `rwthika/tensorflow-cc:latest` |
+| 2.13.0 | CPU | amd64, arm64 | `rwthika/tensorflow-cc:latest` |
 
 <details>
 <summary><i>All TensorFlow Versions (GPU)</i></summary>
@@ -111,7 +111,6 @@ The amd64 images are based on the [official TensorFlow Docker images](https://hu
 | :---: | :---: | --- |
 | latest | amd64 | `rwthika/tensorflow-cc:latest-gpu` |
 | 2.13.0 | amd64 | `rwthika/tensorflow-cc:2.13.0-gpu` |
-| 2.12.1 | amd64 | - |
 | 2.12.0 | amd64 | `rwthika/tensorflow-cc:2.12.0-gpu` |
 | 2.11.1 | amd64 | `rwthika/tensorflow-cc:2.11.0-gpu` |
 | 2.11.0 | amd64, arm64 | `rwthika/tensorflow-cc:2.11.0-gpu` |
@@ -139,10 +138,10 @@ The amd64 images are based on the [official TensorFlow Docker images](https://hu
 
 | TensorFlow Version | Architecture | Image:Tag |
 | :---: | :---: | --- |
-| latest | amd64 | `rwthika/tensorflow-cc:latest` |
-| 2.13.0 | amd64 | `rwthika/tensorflow-cc:2.13.0` |
-| 2.12.1 | amd64 | - |
-| 2.12.0 | amd64 | `rwthika/tensorflow-cc:2.12.0` |
+| latest | amd64, arm64 | `rwthika/tensorflow-cc:latest` |
+| 2.13.0 | amd64, arm64 | `rwthika/tensorflow-cc:2.13.0` |
+| 2.12.1 | arm64 | `rwthika/tensorflow-cc:2.12.1` |
+| 2.12.0 | amd64, arm64 | `rwthika/tensorflow-cc:2.12.0` |
 | 2.11.1 | amd64, arm64 | `rwthika/tensorflow-cc:2.11.1` |
 | 2.11.0 | amd64, arm64 | `rwthika/tensorflow-cc:2.11.0` |
 | 2.10.1 | amd64, arm64 | `rwthika/tensorflow-cc:2.10.1` |
@@ -251,9 +250,13 @@ make 5-print-versions
 | Version | Architecture | Step 1 (CPU) | Step 2 (CPU) | Step 4 (CPU) | Step 1 (GPU) | Step 2 (GPU) | Step 4 (GPU) | Notes |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | --- |
 | 2.13.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.13.0 | arm64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | linker error at the end of building `libtensorflow_cc.so`; CPU image without Python TensorFlow |
 | 2.12.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | missing image `tensorflow/tensorflow:2.12.1` |
+| 2.12.1 | arm64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | linker error at the end of building `libtensorflow_cc.so`; CPU image without Python TensorFlow |
 | 2.12.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.12.0 | arm64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | linker error at the end of building `libtensorflow_cc.so`; CPU image without Python TensorFlow |
 | 2.11.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
+| 2.11.1 | arm64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | - | linker error at the end of building `libtensorflow_cc.so`; CPU image without Python TensorFlow |
 | 2.11.0 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
 | 2.11.0 | arm64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
 | 2.10.1 | amd64 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  |
@@ -323,9 +326,13 @@ make 5-print-versions
 | TensorFlow | Architecture | Ubuntu | GCC | Bazel | Python | protobuf | CUDA | cuDNN | TensorRT | GPU Compute Capability |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 2.13.0 | amd64 | 20.04 | 9.4.0/11.4.0 | 6.3.2 | 3.8.10 | 3.21.9 | 11.8.89 | 8.6.0 | 8.5.3 | 9.0, 8.9, 8.6, 8.0, 7.5, 7.0, 6.1, 6.0 |
+| 2.13.0 | arm64 | 20.04 | 9.4.0/11.4.0 | 6.3.2 | 3.8.10 | 3.21.9 | - | - | - | - |
 | 2.12.1 | amd64 | 20.04 | 9.4.0/11.4.0 | 6.3.2 | 3.8.10 | 3.21.9 | 11.8.89 | 8.6.0 | 8.5.3 | 9.0, 8.9, 8.6, 8.0, 7.5, 7.0, 6.1, 6.0 |
+| 2.12.1 | arm64 | 20.04 | 9.4.0/11.4.0 | 6.3.2 | 3.8.10 | 3.21.9 | - | - | - | - |
 | 2.12.0 | amd64 | 20.04 | 9.4.0/11.4.0 | 6.3.2 | 3.8.10 | 3.21.9 | 11.8.89 | 8.6.0 | 8.5.3 | 9.0, 8.9, 8.6, 8.0, 7.5, 7.0, 6.1, 6.0 |
-| 2.11.1 | amd64 | 20.04 | 9.4.0 | 6.3.2 | 3.8.10 | 3.9.2 | - | - | - | - |
+| 2.12.0 | arm64 | 20.04 | 9.4.0/11.4.0 | 6.3.2 | 3.8.10 | 3.21.9 | - | - | - | - |
+| 2.11.1 | amd64 | 20.04 | 9.4.0 | 6.3.2 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.0, 6.1, 6.0 |
+| 2.11.1 | arm64 | 20.04 | 9.4.0 | 6.3.2 | 3.8.10 | 3.9.2 | - | - | - | - |
 | 2.11.0 | amd64 | 20.04 | 9.4.0 | 6.0.0 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
 | 2.11.0 | arm64 | 20.04 | 9.4.0 | 6.0.0 | 3.8.10 | 3.9.2 | 11.4.239 | 8.4.1 | 8.4.1 | 8.7, 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
 | 2.10.1 | amd64 | 20.04 | 9.4.0 | 6.0.0 | 3.8.10 | 3.9.2 | 11.2.152 | 8.1.0 | 7.2.2 | 8.6, 8.0, 7.5, 7.2, 7.0, 6.1, 6.0, 5.3 |
