@@ -21,7 +21,7 @@
 
 ARG UBUNTU_VERSION=20.04
 
-FROM rwthika/cuda:11.8-cudnn-trt-ubuntu20-devel AS base
+FROM ubuntu:${UBUNTU_VERSION} AS base
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
