@@ -1,78 +1,101 @@
+# Copyright 2019 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+#
+# THIS IS A GENERATED DOCKERFILE.
+#
+# This file was assembled from multiple pieces, whose use is documented
+# throughout. Please refer to the TensorFlow dockerfiles documentation
+# for more information.
+
 ARG UBUNTU_VERSION=20.04
 
-FROM rwthika/cuda:11.8-cudnn-trt-ubuntu20.04-devel as base
+FROM ubuntu:${UBUNTU_VERSION} AS base
+
 ENV DEBIAN_FRONTEND=noninteractive
-
-ARG CUDA=11.8
-ARG CUDNN=8.6.0.163-1
-ARG CUDNN_MAJOR_VERSION=8
-ARG LIBNVINFER=8.5.3-1
-ARG LIBNVINFER_MAJOR_VERSION=8
-
-# Needed for string substitution
-SHELL ["/bin/bash", "-c"]
-
-# essentials
-# See http://bugs.python.org/issue19846
-ENV LANG C.UTF-8
-RUN apt-get update && apt-get install -y \ 
+RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
         clang-format \
         curl \
         git \
-        gnupg2 \
         libcurl3-dev \
         libfreetype6-dev \
         libhdf5-serial-dev \
         libzmq3-dev \
-        openjdk-8-jdk \
         pkg-config \
-        python3 \
-        python3-dev \
-        python3-pip \
         rsync \
         software-properties-common \
-        swig \
+        sudo \
         unzip \
-        virtualenv \
-        wget \
         zip \
-        zlib1g-dev
+        zlib1g-dev \
+        openjdk-8-jdk \
+        openjdk-8-jre-headless \
+        && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+ENV CI_BUILD_PYTHON python
+
+# CACHE_STOP is used to rerun future commands, otherwise cloning tensorflow will be cached and will not pull the most recent version
+ARG CACHE_STOP=1
+# Check out TensorFlow source code if --build-arg CHECKOUT_TF_SRC=1
+ARG CHECKOUT_TF_SRC=0
+# In case of Python 2.7+ we need to add passwd entries for user and group id
+RUN chmod a+w /etc/passwd /etc/group
+RUN test "${CHECKOUT_TF_SRC}" -eq 1 && git clone --depth=1 https://github.com/tensorflow/tensorflow.git /tensorflow_src || true
+
+# See http://bugs.python.org/issue19846
+ENV LANG C.UTF-8
+
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip
 
 RUN python3 -m pip --no-cache-dir install --upgrade \
     "pip<20.3" \
-    setuptools==49.6.0
+    setuptools
 
 # Some TF tools expect a "python" binary
 RUN ln -s $(which python3) /usr/local/bin/python
 
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    git \
+    openjdk-8-jdk \
+    python3-dev \
+    virtualenv \
+    swig
+
+RUN apt-get update && apt-get install -y \
+    gfortran \
+    libblas-dev \
+    liblapack-dev
+
 RUN python3 -m pip --no-cache-dir install \
     Pillow \
-    h5py \
-    keras_preprocessing \
     tb-nightly \
+    h5py \
     matplotlib \
     mock \
     'numpy<1.19.0' \
     scipy \
-    scikit-learn \
+    sklearn \
     pandas \
-    future \
     portpicker \
     enum34
-
-# Configure the build for our CUDA configuration.
-ENV LD_LIBRARY_PATH /usr/local/cuda-11.8/targets/aarch64-linux/lib:/usr/local/cuda/lib64:/usr/include/aarch64-linux-gnu:/usr/lib/aarch64-linux-gnu:$LD_LIBRARY_PATH:/usr/local/cuda/lib64/stubs:/usr/local/cuda-11.8/lib64
-ENV TF_NEED_CUDA 1
-ENV TF_NEED_TENSORRT 1
-ENV TF_CUDA_VERSION=${CUDA}
-ENV TF_CUDNN_VERSION=${CUDNN_MAJOR_VERSION}
-
-# Link the libcuda stub to the location where tensorflow is searching for it and reconfigure
-# dynamic linker run-time bindings
-RUN ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/libcuda.so.1 \
-    && echo "/usr/local/cuda/lib64/stubs" > /etc/ld.so.conf.d/z-cuda-stubs.conf \
-    && ldconfig
 
 # Installs bazelisk
 RUN mkdir /bazel && \
