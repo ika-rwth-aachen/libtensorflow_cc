@@ -21,8 +21,7 @@
 
 ARG UBUNTU_VERSION=20.04
 
-FROM ubuntu:${UBUNTU_VERSION} AS base
-
+FROM rwthika/cuda:11.8-cudnn-trt-ubuntu${UBUNTU_VERSION}-devel as base
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
@@ -96,6 +95,19 @@ RUN python3 -m pip --no-cache-dir install \
     pandas \
     portpicker \
     enum34
+
+# Configure the build for our CUDA configuration.
+ENV LD_LIBRARY_PATH /usr/local/cuda-11.8/targets/aarch64-linux/lib:/usr/local/cuda/lib64:/usr/include/aarch64-linux-gnu:/usr/lib/aarch64-linux-gnu:$LD_LIBRARY_PATH:/usr/local/cuda/lib64/stubs:/usr/local/cuda-11.8/lib64
+ENV TF_NEED_CUDA 1
+ENV TF_NEED_TENSORRT 1
+ENV TF_CUDA_VERSION=${CUDA}
+ENV TF_CUDNN_VERSION=${CUDNN_MAJOR_VERSION}
+
+# Link the libcuda stub to the location where tensorflow is searching for it and reconfigure
+# dynamic linker run-time bindings
+RUN ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/libcuda.so.1 \
+    && echo "/usr/local/cuda/lib64/stubs" > /etc/ld.so.conf.d/z-cuda-stubs.conf \
+    && ldconfig
 
 # Installs bazelisk
 RUN mkdir /bazel && \
