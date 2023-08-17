@@ -133,7 +133,7 @@ RUN python3 -m pip --no-cache-dir install \
     mock \
     'numpy<1.19.0' \
     scipy \
-    sklearn \
+    scikit-learn \
     pandas \
     future \
     portpicker \
