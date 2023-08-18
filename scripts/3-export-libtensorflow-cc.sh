@@ -24,12 +24,20 @@ source  $(dirname "$0")/.common.sh
 EXPORT_DIR=${REPOSITORY_DIR}/libtensorflow-cc
 CONTAINER_FILE="libtensorflow-cc_${TF_VERSION}${GPU_POSTFIX}.deb"
 EXPORT_FILE="libtensorflow-cc_${TF_VERSION}${GPU_POSTFIX}_${ARCH}.deb"
+
+EXPORT_DIR_PIP=${REPOSITORY_DIR}/tensorflow-wheel
+CONTAINER_FILE_PIP="tensorflow-${TF_VERSION}*.whl"
+
 STAGE="deb-package"
 
 echo "Building ${IMAGE_LIBTENSORFLOW_CC_ARCH} ... "
-docker build --build-arg TARGETARCH=$ARCH --build-arg TF_VERSION=${TF_VERSION} --build-arg JOBS=${JOBS} --build-arg GPU_POSTFIX=${GPU_POSTFIX} --build-arg TF_CUDA_COMPUTE_CAPABILITIES=${TF_CUDA_COMPUTE_CAPABILITIES} --target ${STAGE} -t ${IMAGE_LIBTENSORFLOW_CC_ARCH} ${DOCKER_DIR} | tee ${LOG_FILE}
+docker build --build-arg TARGETARCH=$ARCH --build-arg TF_VERSION=${TF_VERSION} --build-arg JOBS=${JOBS} --build-arg GPU_POSTFIX=${GPU_POSTFIX} --build-arg TF_CUDA_COMPUTE_CAPABILITIES=${TF_CUDA_COMPUTE_CAPABILITIES} --build-arg BUILD_PIP_PACKAGE=${BUILD_PIP_PACKAGE} --target ${STAGE} -t ${IMAGE_LIBTENSORFLOW_CC_ARCH} ${DOCKER_DIR} | tee ${LOG_FILE}
 
 echo "Exporting to $(realpath ${EXPORT_DIR})/${EXPORT_FILE} ... "
-TMP_CONTAINER=$(docker create ${IMAGE_LIBTENSORFLOW_CC_ARCH})
+TMP_CONTAINER=$(docker run -d --rm ${IMAGE_LIBTENSORFLOW_CC_ARCH} sleep infinity)
 docker cp ${TMP_CONTAINER}:/${CONTAINER_FILE} ${EXPORT_DIR}/${EXPORT_FILE}
-docker rm -v ${TMP_CONTAINER}
+if [ "$BUILD_PIP_PACKAGE" = "1" ]; then
+    echo "Exporting to $(realpath ${EXPORT_DIR_PIP}) ... "
+    docker exec ${TMP_CONTAINER} bash -c "ls /${CONTAINER_FILE_PIP}" | while read f; do docker cp ${TMP_CONTAINER}:/$f ${EXPORT_DIR_PIP}; done
+fi
+docker kill ${TMP_CONTAINER}

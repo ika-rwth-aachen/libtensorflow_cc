@@ -2,4 +2,5 @@ Package: libtensorflow-cc
 Version: TF_VERSION
 Architecture: TARGETARCH
 Maintainer: Lennart Reiher <lennart.reiher@rwth-aachen.de>
+Uploaders: Lennart Reiher <lennart.reiher@rwth-aachen.de>, Jean-Pierre Busch <jean-pierre.busch@rwth-aachen.de>
 Description: TensorFlow C++ Library

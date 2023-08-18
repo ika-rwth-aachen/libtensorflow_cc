@@ -24,25 +24,27 @@ MAKEFLAGS += --no-print-directory
 MAKEFILE_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 
 # build architecture
-DEFAULT_ARCH := $(shell dpkg --print-architecture)
+DEFAULT_ARCH := $(shell dpkg --print-architecture 2> /dev/null || uname -m)
 ARCH := $(if $(ARCH),$(ARCH),$(DEFAULT_ARCH))
 
 # defaults
-DEFAULT_TF_VERSION := 2.11.0
-TF_VERSIONS := 2.11.0 2.10.1 2.10.0 2.9.3 2.9.2 2.9.1 2.9.0 2.8.4 2.8.3 2.8.2 2.8.1 2.8.0 2.7.4 2.7.3 2.7.2 2.7.1 2.7.0 2.6.5 2.6.4 2.6.3 2.6.2 2.6.1 2.6.0 2.5.3 2.5.2 2.5.1 2.5.0 2.4.4 2.4.3 2.4.2 2.4.1 2.4.0 2.3.4 2.3.3 2.3.2 2.3.1 2.3.0 2.2.3 2.2.2 2.2.1 2.2.0 2.1.4 2.1.3 2.1.2 2.1.1 2.1.0 2.0.4 2.0.3 2.0.2 2.0.1 2.0.0
-DEFAULT_JOBS := $(shell nproc)
+DEFAULT_TF_VERSION := 2.13.0
+TF_VERSIONS := 2.13.0 2.12.1 2.12.0 2.11.1 2.11.0 2.10.1 2.10.0 2.9.3 2.9.2 2.9.1 2.9.0 2.8.4 2.8.3 2.8.2 2.8.1 2.8.0 2.7.4 2.7.3 2.7.2 2.7.1 2.7.0 2.6.5 2.6.4 2.6.3 2.6.2 2.6.1 2.6.0 2.5.3 2.5.2 2.5.1 2.5.0 2.4.4 2.4.3 2.4.2 2.4.1 2.4.0 2.3.4 2.3.3 2.3.2 2.3.1 2.3.0 2.2.3 2.2.2 2.2.1 2.2.0 2.1.4 2.1.3 2.1.2 2.1.1 2.1.0 2.0.4 2.0.3 2.0.2 2.0.1 2.0.0
+DEFAULT_JOBS := $(shell nproc 2> /dev/null || sysctl -n hw.ncpu)
 DEFAULT_GPU := 1
 ifeq ($(ARCH), arm64)
-	DEFAULT_TF_CUDA_COMPUTE_CAPABILITIES := 5.3,6.0,6.1,7.0,7.2,7.5,8.0,8.6,8.7
+	DEFAULT_TF_CUDA_COMPUTE_CAPABILITIES := 5.3,6.2,7.2,8.7
 else
-	DEFAULT_TF_CUDA_COMPUTE_CAPABILITIES := 5.3,6.0,6.1,7.0,7.2,7.5,8.0,8.6
+	DEFAULT_TF_CUDA_COMPUTE_CAPABILITIES := 6.0,6.1,7.0,7.5,8.0,8.6,8.9,9.0
 endif
+DEFAULT_BUILD_PIP_PACKAGE := 0
 
 # arguments
 TF_VERSION := $(if $(TF_VERSION),$(TF_VERSION),$(DEFAULT_TF_VERSION))
 JOBS := $(if $(JOBS),$(JOBS),$(DEFAULT_JOBS))
 GPU := $(if $(GPU),$(GPU),$(DEFAULT_GPU))
 TF_CUDA_COMPUTE_CAPABILITIES := $(if $(TF_CUDA_COMPUTE_CAPABILITIES),$(TF_CUDA_COMPUTE_CAPABILITIES),$(DEFAULT_TF_CUDA_COMPUTE_CAPABILITIES))
+BUILD_PIP_PACKAGE := $(if $(BUILD_PIP_PACKAGE),$(BUILD_PIP_PACKAGE),$(DEFAULT_BUILD_PIP_PACKAGE))
 
 # variables
 ifeq ($(GPU), 1)
@@ -118,15 +120,15 @@ clean-images: clean-official-devel-images clean-cpp-images clean-libtensorflow-c
 	$(MAKEFILE_DIR)/scripts/$@.sh
 
 .PHONY: 1-build-official-devel-image
-1-build-official-devel-image: 0-download-official-dockerfiles
+1-build-official-devel-image:
 	$(MAKEFILE_DIR)/scripts/$@.sh
 
 .PHONY: 2-build-cpp-image
-2-build-cpp-image: 1-build-official-devel-image
+2-build-cpp-image:
 	$(MAKEFILE_DIR)/scripts/$@.sh
 
 .PHONY: 3-export-libtensorflow-cc
-3-export-libtensorflow-cc: 2-build-cpp-image
+3-export-libtensorflow-cc:
 	$(MAKEFILE_DIR)/scripts/$@.sh
 
 .PHONY: 4-test-libtensorflow-cc
