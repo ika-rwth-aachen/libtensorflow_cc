@@ -152,21 +152,30 @@ RUN dpkg-deb --build --root-owner-group libtensorflow-cc_${TF_VERSION}${GPU_POST
     rm -rf libtensorflow-cc_${TF_VERSION}${GPU_POSTFIX}/
 
 # copy pip package, if built
-ARG BUILD_PIP_PACKAGE=0
+ARG BUILD_PIP_PACKAGE
 COPY --from=build /tmp/tensorflow/pip/tensorflow*.whl /
 
 # --- final stage with TensorFlow Python and C++ Library -----------------------
 FROM --platform=amd64 tensorflow/tensorflow:${TF_VERSION}${GPU_POSTFIX} as final-amd64
-ARG TARGETARCH
 
-# FROM ubuntu
-FROM --platform=arm64 ubuntu:focal as final-arm64
-ARG TARGETARCH
+FROM --platform=arm64 ubuntu:focal as final-base-arm64
 
-FROM --platform=arm64 nvcr.io/nvidia/l4t-tensorflow:r35.1.0-tf2.9-py3 as final-arm64-gpu
-ARG TARGETARCH
+FROM --platform=arm64 rwthika/cuda:11.8-cudnn-trt-ubuntu20.04 as final-base-arm64-gpu
 
-FROM "final-${TARGETARCH}${GPU_POSTFIX}" as final
+FROM "final-base-arm64${GPU_POSTFIX}" as final-arm64
+
+# copy and install pip package, if built (not present in base image)
+ARG BUILD_PIP_PACKAGE
+COPY --from=deb-package /tensorflow*.whl /
+RUN if [ "${BUILD_PIP_PACKAGE}" = "1" ]; then \
+        apt-get update && \
+        apt-get install -y python3-pip && \
+        python3 -m pip install --no-cache /tensorflow*.whl && \
+        rm -rf /var/lib/apt/lists/*; \
+    fi && \
+    rm -rf /tensorflow*.whl
+
+FROM "final-${TARGETARCH}" as final
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TF_VERSION
