@@ -17,6 +17,14 @@ We try to remedy this current situation by providing two main components:
 1. We provide the pre-built `libtensorflow_cc.so` including accompanying headers as a one-command-install deb-package. The package is available for both x86_64/amd64 and arm64 machines running Ubuntu. See [Installation](#installation).
 2. We provide a pre-built Docker image based on the official TensorFlow Docker image. Our Docker image has both TensorFlow Python and TensorFlow C++ installed. The Docker images support both x86_64/amd64 and arm64 architectures. The arm64 version is specifically targeted at [NVIDIA Jetson Orin](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/). See [Docker Images](#docker-images).
 
+> [!IMPORTANT]  
+> This repository is open-sourced and maintained by the [**Institute for Automotive Engineering (ika) at RWTH Aachen University**](https://www.ika.rwth-aachen.de/).  
+> **Deep Learning** is one of many research topics within our [*Vehicle Intelligence & Automated Driving*](https://www.ika.rwth-aachen.de/en/competences/fields-of-research/vehicle-intelligence-automated-driving.html) domain.  
+> If you would like to learn more about how we can support your deep learning or automated driving efforts, feel free to reach out to us!  
+> &nbsp;&nbsp;&nbsp;&nbsp; *Timo Woopen - Manager Research Area Vehicle Intelligence & Automated Driving*  
+> &nbsp;&nbsp;&nbsp;&nbsp; *+49 241 80 23549*  
+> &nbsp;&nbsp;&nbsp;&nbsp; *timo.woopen@ika.rwth-aachen.de*  
+
 If you want to use the TensorFlow C++ API to load, inspect, and run saved models and frozen graphs in C++, we suggest that you also check out our helper library [*tensorflow_cpp*](https://github.com/ika-rwth-aachen/tensorflow_cpp). <img src="https://img.shields.io/github/stars/ika-rwth-aachen/tensorflow_cpp?style=social"/>
 
 ---
